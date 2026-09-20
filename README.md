@@ -1,4 +1,4 @@
-# taste_of_home# Taste of Home
+# Taste of Home
 
 ### Homemade Spice. Authentic Taste. Made with Care.
 
