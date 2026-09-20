@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Shop | Tasteof Home</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+        <div class="container top-bar-content">
+
+            <span>
+                Homemade goodness, delivered to your doorstep
+            </span>
+
+            <span>
+                🇮🇳 Proudly made in India
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="container header-content">
+
+            <a href="/" class="brand">
+
+                <div class="brand-icon">
+                    🌶️
+                </div>
+
+                <div>
+
+                    <div class="brand-name">
+                        Tasteof Home
+                    </div>
+
+                    <div class="brand-tagline">
+                        Homemade. Spicy. Delicious.
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="text"
+                    placeholder="Search homemade products..."
+                >
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="header-actions">
+
+                <a href="#" class="header-action">
+
+                    <span>♡</span>
+
+                    <small>
+                        Wishlist
+                    </small>
+
+                </a>
+
+
+                <a href="/account" class="header-action">
+
+                    <span>👤</span>
+
+                    <small>
+                        Account
+                    </small>
+
+                </a>
+
+
+                <a href="/cart" class="cart-button">
+
+                    <span>
+                        🛒
+                    </span>
+
+                    <span>
+                        Cart
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+
+        <div class="container navigation-content">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/shop" class="active">
+                Shop All
+            </a>
+
+            <a href="#">
+                Pickles
+            </a>
+
+            <a href="#">
+                Spice Powders
+            </a>
+
+            <a href="#">
+                Masalas
+            </a>
+
+            <a href="#">
+                Chutneys
+            </a>
+
+            <a href="#">
+                Snacks
+            </a>
+
+            <a href="#">
+                New Arrivals
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- SHOP -->
+
+    <main>
+
+        <section class="products section">
+
+            <div class="container">
+
+
+                <!-- HEADING -->
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            OUR PRODUCTS
+                        </span>
+
+                        <h2>
+                            Shop All Products
+                        </h2>
+
+                    </div>
+
+                    <a href="/">
+                        ← Back Home
+                    </a>
+
+                </div>
+
+
+                <!-- PRODUCTS -->
+
+                <div class="product-grid">
+
+
+                    {% for product in products %}
+
+
+                    <article class="product-card">
+
+
+                        <!-- PRODUCT IMAGE -->
+
+                        <div class="product-image product-red">
+
+                            <button
+                                class="wishlist"
+                                type="button"
+                            >
+                                ♡
+                            </button>
+
+
+                            {% if product.image %}
+
+                                <img
+                                    src="{{ url_for('static', path='images/' ~ product.image) }}"
+                                    alt="{{ product.name }}"
+                                    class="product-real-image"
+                                >
+
+                            {% else %}
+
+                                🌶️
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- PRODUCT DETAILS -->
+
+                        <div class="product-details">
+
+
+                            {% if product.category %}
+
+                            <div class="product-category">
+
+                                {{ product.category }}
+
+                            </div>
+
+                            {% endif %}
+
+
+                            <h3>
+
+                                {{ product.name }}
+
+                            </h3>
+
+
+                            {% if product.description %}
+
+                            <p>
+
+                                {{ product.description }}
+
+                            </p>
+
+                            {% endif %}
+
+
+                            <div class="product-bottom">
+
+
+                                <div>
+
+                                    <span class="price">
+
+                                        ₹{{ product.price }}
+
+                                    </span>
+
+                                </div>
+
+
+                                <form
+                                    action="/cart/add"
+                                    method="post"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="product_id"
+                                        value="{{ product.id }}"
+                                    >
+
+                                    <button
+                                        class="add-button"
+                                        type="submit"
+                                    >
+                                        + Add
+                                    </button>
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                    {% else %}
+
+
+                    <p>
+                        No products available.
+                    </p>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="container footer-grid">
+
+
+            <div class="footer-brand">
+
+                <div class="brand footer-logo">
+
+                    <div class="brand-icon">
+                        🌶️
+                    </div>
+
+                    <div>
+
+                        <div class="brand-name">
+                            Tasteof Home
+                        </div>
+
+                        <div class="brand-tagline">
+                            Homemade. Spicy. Delicious.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Bringing authentic homemade flavours
+                    from our kitchen to your home.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Shop
+                </h4>
+
+                <a href="/shop">
+                    All Products
+                </a>
+
+                <a href="#">
+                    Pickles
+                </a>
+
+                <a href="#">
+                    Masalas
+                </a>
+
+                <a href="#">
+                    Chutneys
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Customer Care
+                </h4>
+
+                <a href="/account">
+                    My Account
+                </a>
+
+                <a href="#">
+                    My Orders
+                </a>
+
+                <a href="#">
+                    Shipping
+                </a>
+
+                <a href="#">
+                    Contact Us
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Follow Us
+                </h4>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    Facebook
+                </a>
+
+                <a href="#">
+                    WhatsApp
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                © 2026 Tasteof Home. All rights reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

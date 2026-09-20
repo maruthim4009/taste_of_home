@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Tasteof Home | Homemade Goodness</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+        <div class="container top-bar-content">
+
+            <span>
+                Homemade goodness, delivered to your doorstep
+            </span>
+
+            <span>
+                🇮🇳 Proudly made in India
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="container header-content">
+
+
+            <!-- LOGO -->
+
+            <a href="/" class="brand">
+
+                <div class="brand-icon">
+                    🌶️
+                </div>
+
+                <div>
+
+                    <div class="brand-name">
+                        Tasteof Home
+                    </div>
+
+                    <div class="brand-tagline">
+                        Homemade. Spicy. Delicious.
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="text"
+                    placeholder="Search homemade products..."
+                >
+
+            </div>
+
+
+            <!-- HEADER ACTIONS -->
+
+            <div class="header-actions">
+
+                <a href="#" class="header-action">
+
+                    <span>♡</span>
+
+                    <small>
+                        Wishlist
+                    </small>
+
+                </a>
+
+{% if customer %}
+
+<a href="/account" class="header-action">
+
+    <span>👤</span>
+
+    <small>
+        {{ customer.username }}
+    </small>
+
+</a>
+
+{% else %}
+
+<a href="/account" class="header-action">
+
+    <span>👤</span>
+
+    <small>
+        Account
+    </small>
+
+</a>
+
+{% endif %}
+
+                <a href="/cart" class="cart-button">
+
+                    <span>
+                        🛒
+                    </span>
+
+                    <span>
+                        Cart
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+
+        <div class="container navigation-content">
+
+            <a href="/" class="active">
+                Home
+            </a>
+
+            <a href="/shop">
+                Shop All
+            </a>
+
+            <a href="#">
+                Pickles
+            </a>
+
+            <a href="#">
+                Spice Powders
+            </a>
+
+            <a href="#">
+                Masalas
+            </a>
+
+            <a href="#">
+                Chutneys
+            </a>
+
+            <a href="#">
+                Snacks
+            </a>
+
+            <a href="#">
+                New Arrivals
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="container hero-content">
+
+
+                <div class="hero-text">
+                    {% if customer %}
+                    <div style="
+                        display: inline-block;
+                        padding: 8px 16px;
+                        margin-bottom: 15px;
+                        border-radius: 20px;
+                        background: #e2ede5;
+                        color: #1e3a27;
+                        font-size: 13px;
+                        font-weight: 700;
+                        letter-spacing: 0.3px;
+                        border: 1px solid #c4d4bb;
+                        ">
+                        👋 Welcome, {{ customer.username }}!
+                        </div>
+                        {% endif %}
+
+
+                    <div class="hero-label">
+                        🌶️ AUTHENTIC HOMEMADE FLAVOURS
+                    </div>
+        
+
+                    <h1>
+                        A Taste of Home,
+                        <span>Made With Love.</span>
+                    </h1>
+
+                    <p>
+                        Discover delicious homemade pickles,
+                        spices, masalas, chutneys and snacks,
+                        carefully prepared for your family.
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <a href="/shop" class="primary-button">
+                            Shop Now
+                            <span>→</span>
+                        </a>
+
+                        <a href="#" class="secondary-button">
+                            Explore Categories
+                        </a>
+
+                    </div>
+
+
+                    <div class="hero-features">
+
+                        <div>
+                            <strong>100%</strong>
+                            <span>Homemade</span>
+                        </div>
+
+                        <div>
+                            <strong>Fresh</strong>
+                            <span>Ingredients</span>
+                        </div>
+
+                        <div>
+                            <strong>Safe</strong>
+                            <span>Packaging</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-visual">
+
+                    <div class="hero-circle"></div>
+
+                    <div class="food-card food-card-main">
+
+                        <div class="food-image">
+                            🌶️
+                        </div>
+
+                        <div class="food-card-info">
+
+                            <strong>
+                                Homemade Spicy Pickle
+                            </strong>
+
+                            <span>
+                                Freshly prepared
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-card rating-card">
+
+                        <strong>
+                            ★ 4.9
+                        </strong>
+
+                        <span>
+                            Happy customers
+                        </span>
+
+                    </div>
+
+
+                    <div class="floating-card delivery-card">
+
+                        <span>
+                            🚚
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Freshly packed
+                            </strong>
+
+                            <small>
+                                Delivered with care
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORIES -->
+
+        <section class="categories section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            SHOP BY CATEGORY
+                        </span>
+
+                        <h2>
+                            Something Delicious
+                            For Everyone
+                        </h2>
+
+                    </div>
+
+                    <a href="#">
+                        View all →
+                    </a>
+
+                </div>
+
+
+                <div class="category-grid">
+
+
+                    <a href="#" class="category-card">
+
+                        <div class="category-icon pickle">
+                            🥒
+                        </div>
+
+                        <h3>
+                            Pickles
+                        </h3>
+
+                        <p>
+                            Traditional homemade flavours
+                        </p>
+
+                        <span>
+                            Explore →
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="category-card">
+
+                        <div class="category-icon spice">
+                            🌶️
+                        </div>
+
+                        <h3>
+                            Spice Powders
+                        </h3>
+
+                        <p>
+                            Bold and aromatic spices
+                        </p>
+
+                        <span>
+                            Explore →
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="category-card">
+
+                        <div class="category-icon masala">
+                            🧂
+                        </div>
+
+                        <h3>
+                            Masalas
+                        </h3>
+
+                        <p>
+                            Perfect blends for every dish
+                        </p>
+
+                        <span>
+                            Explore →
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="category-card">
+
+                        <div class="category-icon chutney">
+                            🫙
+                        </div>
+
+                        <h3>
+                            Chutneys
+                        </h3>
+
+                        <p>
+                            Rich, spicy and delicious
+                        </p>
+
+                        <span>
+                            Explore →
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="category-card">
+
+                        <div class="category-icon snacks">
+                            🍘
+                        </div>
+
+                        <h3>
+                            Snacks
+                        </h3>
+
+                        <p>
+                            Crispy homemade favourites
+                        </p>
+
+                        <span>
+                            Explore →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRODUCTS -->
+
+        <section class="products section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            CUSTOMER FAVOURITES
+                        </span>
+
+                        <h2>
+                            Best Sellers
+                        </h2>
+
+                    </div>
+
+                    <a href="/shop">
+                        Shop all →
+                    </a>
+
+                </div>
+
+
+                <div class="product-grid">
+
+
+                    <article class="product-card">
+
+                        <div class="product-image product-red">
+
+                            <span class="product-badge">
+                                Bestseller
+                            </span>
+
+                            <button class="wishlist">
+                                ♡
+                            </button>
+
+                            🌶️
+
+                        </div>
+
+
+                        <div class="product-details">
+
+                            <div class="product-category">
+                                PICKLES
+                            </div>
+
+                            <h3>
+                                Homemade Spicy Mango Pickle
+                            </h3>
+
+                            <p>
+                                Traditional homemade recipe
+                                with authentic spices.
+                            </p>
+
+
+                            <div class="product-bottom">
+
+                                <div>
+
+                                    <span class="price">
+                                        ₹299
+                                    </span>
+
+                                    <del>
+                                        ₹349
+                                    </del>
+
+                                </div>
+
+                                <button class="add-button">
+                                    + Add
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="product-card">
+
+                        <div class="product-image product-orange">
+
+                            <button class="wishlist">
+                                ♡
+                            </button>
+
+                            🧂
+
+                        </div>
+
+
+                        <div class="product-details">
+
+                            <div class="product-category">
+                                MASALAS
+                            </div>
+
+                            <h3>
+                                Homemade Special Masala
+                            </h3>
+
+                            <p>
+                                Rich aromatic spice blend
+                                for everyday cooking.
+                            </p>
+
+
+                            <div class="product-bottom">
+
+                                <div>
+
+                                    <span class="price">
+                                        ₹249
+                                    </span>
+
+                                </div>
+
+                                <button class="add-button">
+                                    + Add
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="product-card">
+
+                        <div class="product-image product-green">
+
+                            <span class="product-badge">
+                                New
+                            </span>
+
+                            <button class="wishlist">
+                                ♡
+                            </button>
+
+                            🫙
+
+                        </div>
+
+
+                        <div class="product-details">
+
+                            <div class="product-category">
+                                CHUTNEYS
+                            </div>
+
+                            <h3>
+                                Homemade Spicy Chutney
+                            </h3>
+
+                            <p>
+                                Fresh homemade chutney
+                                packed with flavour.
+                            </p>
+
+
+                            <div class="product-bottom">
+
+                                <div>
+
+                                    <span class="price">
+                                        ₹199
+                                    </span>
+
+                                </div>
+
+                                <button class="add-button">
+                                    + Add
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="product-card">
+
+                        <div class="product-image product-yellow">
+
+                            <button class="wishlist">
+                                ♡
+                            </button>
+
+                            🍘
+
+                        </div>
+
+
+                        <div class="product-details">
+
+                            <div class="product-category">
+                                SNACKS
+                            </div>
+
+                            <h3>
+                                Homemade Crispy Snack
+                            </h3>
+
+                            <p>
+                                Crunchy, tasty and made
+                                in small batches.
+                            </p>
+
+
+                            <div class="product-bottom">
+
+                                <div>
+
+                                    <span class="price">
+                                        ₹179
+                                    </span>
+
+                                </div>
+
+                                <button class="add-button">
+                                    + Add
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TRUST -->
+
+        <section class="trust-section">
+
+            <div class="container trust-grid">
+
+                <div class="trust-item">
+
+                    <div class="trust-icon">
+                        🏠
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Truly Homemade
+                        </strong>
+
+                        <span>
+                            Made with traditional recipes
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="trust-item">
+
+                    <div class="trust-icon">
+                        🌿
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Quality Ingredients
+                        </strong>
+
+                        <span>
+                            Carefully selected ingredients
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="trust-item">
+
+                    <div class="trust-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Packaging
+                        </strong>
+
+                        <span>
+                            Packed fresh with care
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="trust-item">
+
+                    <div class="trust-icon">
+                        ❤️
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Made With Love
+                        </strong>
+
+                        <span>
+                            From our home to yours
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="container footer-grid">
+
+
+            <div class="footer-brand">
+
+                <div class="brand footer-logo">
+
+                    <div class="brand-icon">
+                        🌶️
+                    </div>
+
+                    <div>
+
+                        <div class="brand-name">
+                            Tasteof Home
+                        </div>
+
+                        <div class="brand-tagline">
+                            Homemade. Spicy. Delicious.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Bringing authentic homemade flavours
+                    from our kitchen to your home.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Shop
+                </h4>
+
+                <a href="#">
+                    All Products
+                </a>
+
+                <a href="#">
+                    Pickles
+                </a>
+
+                <a href="#">
+                    Masalas
+                </a>
+
+                <a href="#">
+                    Chutneys
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Customer Care
+                </h4>
+
+                <a href="#">
+                    My Account
+                </a>
+
+                <a href="#">
+                    My Orders
+                </a>
+
+                <a href="#">
+                    Shipping
+                </a>
+
+                <a href="#">
+                    Contact Us
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Follow Us
+                </h4>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    Facebook
+                </a>
+
+                <a href="#">
+                    WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                © 2026 Tasteof Home. All rights reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

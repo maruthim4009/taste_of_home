@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard | Taste of Home</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f5ef;
+
+            color: #28372d;
+        }
+
+
+        /* =====================================================
+           LAYOUT
+           ===================================================== */
+
+        .admin-layout {
+
+            min-height: 100vh;
+
+            display: flex;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .sidebar {
+
+            width: 245px;
+
+            min-height: 100vh;
+
+            padding: 28px 18px;
+
+            background: #24382a;
+
+            color: white;
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            bottom: 0;
+        }
+
+
+        .brand {
+
+            padding: 5px 12px 30px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.10);
+        }
+
+
+        .brand-mark {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 12px;
+
+            border-radius: 11px;
+
+            background: #ffffff;
+
+            color: #24382a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+
+        .brand-name {
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+        }
+
+
+        .brand-subtitle {
+
+            margin-top: 5px;
+
+            color: #aebca9;
+
+            font-size: 8px;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .nav {
+
+            margin-top: 28px;
+        }
+
+
+        .nav-title {
+
+            padding: 0 12px;
+
+            margin-bottom: 10px;
+
+            color: #91a38d;
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .nav-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 11px 12px;
+
+            margin-bottom: 5px;
+
+            border-radius: 8px;
+
+            color: #cbd5c8;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            transition:
+                background .2s ease,
+                color .2s ease;
+        }
+
+
+        .nav-item:hover {
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: white;
+        }
+
+
+        .nav-item.active {
+
+            background: #ffffff;
+
+            color: #304936;
+        }
+
+
+        .nav-icon {
+
+            width: 19px;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+
+        .sidebar-bottom {
+
+            position: absolute;
+
+            left: 18px;
+
+            right: 18px;
+
+            bottom: 25px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.10);
+        }
+
+
+        .logout {
+
+            display: block;
+
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            color: #bdc8ba;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        .logout:hover {
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        .main {
+
+            width: calc(100% - 245px);
+
+            margin-left: 245px;
+
+            padding: 30px 35px 50px;
+        }
+
+
+        /* =====================================================
+           TOP BAR
+           ===================================================== */
+
+        .topbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 30px;
+        }
+
+
+        .page-label {
+
+            color: #74846f;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+        }
+
+
+        .page-title {
+
+            margin: 5px 0 0;
+
+            color: #24382a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 29px;
+
+            font-weight: 600;
+        }
+
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 8px 12px;
+
+            background: #ffffff;
+
+            border: 1px solid #e3e5dc;
+
+            border-radius: 10px;
+        }
+
+
+        .profile-icon {
+
+            width: 30px;
+
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #e8eee3;
+
+            color: #526c4d;
+
+            font-size: 12px;
+        }
+
+
+        .profile-text strong {
+
+            display: block;
+
+            color: #354438;
+
+            font-size: 9px;
+        }
+
+
+        .profile-text span {
+
+            display: block;
+
+            margin-top: 2px;
+
+            color: #9aa199;
+
+            font-size: 7px;
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+           ===================================================== */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+
+            padding: 20px;
+
+            background: #ffffff;
+
+            border:
+                1px solid
+                #e2e5dc;
+
+            border-radius: 13px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(36,56,42,.05);
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .stat-label {
+
+            color: #8a9388;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+        }
+
+
+        .stat-icon {
+
+            width: 30px;
+
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: #edf2e9;
+
+            color: #5d7957;
+
+            font-size: 12px;
+        }
+
+
+        .stat-value {
+
+            margin-top: 15px;
+
+            color: #28392d;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 27px;
+
+            font-weight: 600;
+        }
+
+
+        .stat-note {
+
+            margin-top: 5px;
+
+            color: #9ba19a;
+
+            font-size: 8px;
+        }
+
+
+        /* =====================================================
+           CONTENT GRID
+           ===================================================== */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                300px;
+
+            gap: 20px;
+
+            align-items: start;
+        }
+
+
+        .panel {
+
+            background: #ffffff;
+
+            border:
+                1px solid
+                #e2e5dc;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px
+                rgba(36,56,42,.05);
+        }
+
+
+        .panel-header {
+
+            padding: 19px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid
+                #edf0e9;
+        }
+
+
+        .panel-title {
+
+            color: #304235;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .panel-subtitle {
+
+            margin-top: 4px;
+
+            color: #9aa19a;
+
+            font-size: 8px;
+        }
+
+
+        .view-all {
+
+            color: #61795c;
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .view-all:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           TABLE
+           ===================================================== */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+
+            padding: 12px 20px;
+
+            background: #fafbf8;
+
+            color: #8b9389;
+
+            font-size: 7px;
+
+            font-weight: 800;
+
+            letter-spacing: .8px;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+
+        td {
+
+            padding: 14px 20px;
+
+            border-top:
+                1px solid
+                #f0f1ed;
+
+            color: #566258;
+
+            font-size: 9px;
+
+            white-space: nowrap;
+        }
+
+
+        .order-id {
+
+            color: #304936;
+
+            font-weight: 800;
+        }
+
+
+        .customer-name {
+
+            color: #36463a;
+
+            font-weight: 700;
+        }
+
+
+        .amount {
+
+            color: #304936;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           STATUS
+           ===================================================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 5px 8px;
+
+            border-radius: 20px;
+
+            font-size: 7px;
+
+            font-weight: 800;
+        }
+
+
+        .status-paid {
+
+            background: #e8f1e5;
+
+            color: #4f7549;
+        }
+
+
+        .status-pending {
+
+            background: #f8f0dc;
+
+            color: #9a773d;
+        }
+
+
+        .status-other {
+
+            background: #eef0ed;
+
+            color: #6c766d;
+        }
+
+
+        /* =====================================================
+           UPI PANEL
+           ===================================================== */
+
+        .upi-panel {
+
+            min-height: 100%;
+        }
+
+
+        .verification-count {
+
+            min-width: 25px;
+
+            height: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #f5e8c9;
+
+            color: #8d6d36;
+
+            font-size: 8px;
+
+            font-weight: 800;
+        }
+
+
+        .verification-body {
+
+            padding: 20px;
+        }
+
+
+        .verification-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            margin-bottom: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #f8f0dc;
+
+            color: #a27d3e;
+
+            font-size: 20px;
+        }
+
+
+        .verification-title {
+
+            color: #39483c;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .verification-text {
+
+            margin-top: 7px;
+
+            color: #8b928b;
+
+            font-size: 9px;
+
+            line-height: 1.6;
+        }
+
+
+        .verification-box {
+
+            margin-top: 18px;
+
+            padding: 13px;
+
+            background: #fafbf8;
+
+            border:
+                1px solid
+                #e5e8e0;
+
+            border-radius: 9px;
+        }
+
+
+        .verification-box-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 7px 0;
+
+            border-bottom:
+                1px solid
+                #edf0ea;
+        }
+
+
+        .verification-box-row:last-child {
+
+            border-bottom: 0;
+        }
+
+
+        .verification-box-row span:first-child {
+
+            color: #909890;
+
+            font-size: 8px;
+        }
+
+
+        .verification-box-row span:last-child {
+
+            color: #405044;
+
+            font-size: 8px;
+
+            font-weight: 800;
+        }
+
+
+        .verification-button {
+
+            display: block;
+
+            width: 100%;
+
+            margin-top: 17px;
+
+            padding: 11px;
+
+            border-radius: 8px;
+
+            background: #304936;
+
+            color: white;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .verification-button:hover {
+
+            background: #24382a;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+        .empty-state {
+
+            padding: 40px 20px;
+
+            text-align: center;
+
+            color: #9aa19a;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 1050px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .content-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+
+                width: 70px;
+
+                padding: 20px 10px;
+            }
+
+
+            .brand {
+
+                padding:
+                    0 0 20px;
+
+                text-align: center;
+            }
+
+
+            .brand-mark {
+
+                margin:
+                    0 auto 0;
+            }
+
+
+            .brand-name,
+            .brand-subtitle,
+            .nav-title {
+
+                display: none;
+            }
+
+
+            .nav-item {
+
+                justify-content: center;
+
+                padding: 12px 5px;
+            }
+
+
+            .nav-item span:not(.nav-icon) {
+
+                display: none;
+            }
+
+
+            .sidebar-bottom {
+
+                left: 10px;
+
+                right: 10px;
+            }
+
+
+            .logout {
+
+                text-align: center;
+
+                padding: 10px 4px;
+            }
+
+
+            .main {
+
+                width:
+                    calc(100% - 70px);
+
+                margin-left: 70px;
+
+                padding:
+                    25px 18px 40px;
+            }
+
+
+            .admin-profile {
+
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .page-title {
+
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                TH
+            </div>
+
+            <div class="brand-name">
+                TASTE OF HOME
+            </div>
+
+            <div class="brand-subtitle">
+                ADMINISTRATION
+            </div>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <div class="nav-title">
+                MAIN MENU
+            </div>
+
+
+            <a
+                href="/admin/dashboard"
+                class="nav-item active"
+            >
+
+                <span class="nav-icon">
+                    ◈
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/orders"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ▤
+                </span>
+
+                <span>
+                    Orders
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/payments"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ₹
+                </span>
+
+                <span>
+                    Payments
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/customers"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ◎
+                </span>
+
+                <span>
+                    Customers
+                </span>
+
+            </a>
+
+
+            <div class="nav-title" style="margin-top:25px;">
+                STORE
+            </div>
+
+
+            <a
+                href="/shop"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    □
+                </span>
+
+                <span>
+                    View Store
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a
+                href="/logout"
+                class="logout"
+            >
+                ↪ &nbsp; Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <div class="page-label">
+                    OVERVIEW
+                </div>
+
+                <h1 class="page-title">
+                    Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div class="profile-text">
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                    <span>
+                        Store Management
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATISTICS
+             ================================================= -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-label">
+                        TOTAL ORDERS
+                    </div>
+
+                    <div class="stat-icon">
+                        ▤
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    {{ total_orders }}
+                </div>
+
+                <div class="stat-note">
+                    All orders received
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-label">
+                        CUSTOMERS
+                    </div>
+
+                    <div class="stat-icon">
+                        ◎
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    {{ total_customers }}
+                </div>
+
+                <div class="stat-note">
+                    Registered customers
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-label">
+                        PENDING PAYMENTS
+                    </div>
+
+                    <div class="stat-icon">
+                        ◷
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    {{ pending_orders }}
+                </div>
+
+                <div class="stat-note">
+                    Awaiting verification
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-label">
+                        PAID ORDERS
+                    </div>
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    {{ paid_orders }}
+                </div>
+
+                <div class="stat-note">
+                    Successfully verified
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+             ================================================= -->
+
+        <div class="content-grid">
+
+
+            <!-- RECENT ORDERS -->
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Recent Orders
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Latest activity from your store
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="/admin/orders"
+                        class="view-all"
+                    >
+                        View all
+                    </a>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    {% if orders %}
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ORDER
+                                </th>
+
+                                <th>
+                                    CUSTOMER
+                                </th>
+
+                                <th>
+                                    AMOUNT
+                                </th>
+
+                                <th>
+                                    PAYMENT
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for order in orders[:10] %}
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="order-id">
+                                        #{{ order.id }}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="customer-name">
+
+                                        {% if order.customer %}
+
+                                            {{ order.customer.full_name }}
+
+                                        {% else %}
+
+                                            Customer
+
+                                        {% endif %}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="amount">
+                                        ₹{{ "%.2f"|format(order.total_amount or 0) }}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if order.payment_status == "Paid" %}
+
+                                        <span class="status status-paid">
+                                            PAID
+                                        </span>
+
+                                    {% elif order.payment_status == "Pending Verification" %}
+
+                                        <span class="status status-pending">
+                                            VERIFY
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status status-other">
+                                            {{ order.payment_status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if order.status == "Paid" %}
+
+                                        <span class="status status-paid">
+                                            PAID
+                                        </span>
+
+                                    {% elif order.status == "Pending" %}
+
+                                        <span class="status status-pending">
+                                            PENDING
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status status-other">
+                                            {{ order.status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                    {% else %}
+
+                    <div class="empty-state">
+                        No orders have been placed yet.
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <!-- UPI VERIFICATION -->
+
+            <section class="panel upi-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            UPI Verification
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Manual payment review
+                        </div>
+
+                    </div>
+
+
+                    <div class="verification-count">
+                        {{ pending_orders }}
+                    </div>
+
+                </div>
+
+
+                <div class="verification-body">
+
+
+                    <div class="verification-icon">
+                        ₹
+                    </div>
+
+
+                    <div class="verification-title">
+                        Payments awaiting review
+                    </div>
+
+
+                    <div class="verification-text">
+
+                        Customers who submitted a UTR
+                        will appear here for manual
+                        payment verification.
+
+                    </div>
+
+
+                    <div class="verification-box">
+
+
+                        <div class="verification-box-row">
+
+                            <span>
+                                Pending payments
+                            </span>
+
+                            <span>
+                                {{ pending_orders }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="verification-box-row">
+
+                            <span>
+                                Verified payments
+                            </span>
+
+                            <span>
+                                {{ paid_orders }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <a
+                        href="/admin/payments"
+                        class="verification-button"
+                    >
+                        Review UPI Payments
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

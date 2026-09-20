@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Orders | Taste of Home</title>
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7f2;
+            color: #334238;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .page {
+            min-height: 100vh;
+            padding: 48px 25px 70px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .header-left {
+            min-width: 0;
+            flex: 1;
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin-bottom: 9px;
+            color: #78916f;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .page-title {
+            margin: 0;
+            color: #304236;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 42px;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .page-title span {
+            color: #648566;
+        }
+
+        .page-subtitle {
+            margin: 10px 0 0;
+            color: #7d897f;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .account-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 135px;
+            height: 43px;
+            padding: 0 18px;
+            border: 1px solid #d5dfd1;
+            border-radius: 9px;
+            background: #ffffff;
+            color: #58745b;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
+        }
+
+        .account-link:hover {
+            background: #f0f5ed;
+            border-color: #bdcfb9;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           ORDER LIST
+        ===================================================== */
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+
+        /* =====================================================
+           ORDER CARD
+        ===================================================== */
+
+        .order-card {
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #dfe6dc;
+            border-radius: 17px;
+            box-shadow:
+                0 8px 28px rgba(49, 68, 52, .06);
+        }
+
+
+        /* =====================================================
+           ORDER HEADER
+           PAYMENT IS NOT SHOWN HERE
+        ===================================================== */
+
+        .order-header {
+            display: grid;
+            grid-template-columns:
+                minmax(220px, 1.5fr)
+                minmax(150px, .8fr)
+                minmax(150px, .8fr);
+            align-items: center;
+            gap: 25px;
+            padding: 22px 27px;
+            border-bottom: 1px solid #e8eee5;
+            background: #ffffff;
+        }
+
+        .order-heading {
+            min-width: 0;
+        }
+
+        .order-number {
+            margin: 0;
+            color: #304236;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .order-date {
+            margin-top: 7px;
+            color: #8a958c;
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           HEADER INFORMATION
+        ===================================================== */
+
+        .header-info {
+            min-width: 0;
+        }
+
+        .header-label {
+            display: block;
+            margin-bottom: 7px;
+            color: #98a39a;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-value {
+            color: #3d5042;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            width: fit-content;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex: 0 0 7px;
+        }
+
+        .status-delivered {
+            background: #e7f2e6;
+            color: #47734d;
+        }
+
+        .status-delivered .status-dot {
+            background: #619568;
+        }
+
+        .status-confirmed {
+            background: #eaf3e8;
+            color: #56774f;
+        }
+
+        .status-confirmed .status-dot {
+            background: #719967;
+        }
+
+        .status-preparing {
+            background: #edf4e9;
+            color: #5c7d50;
+        }
+
+        .status-preparing .status-dot {
+            background: #829f6c;
+        }
+
+        .status-pending {
+            background: #f8f1dc;
+            color: #987524;
+        }
+
+        .status-pending .status-dot {
+            background: #d3a13a;
+        }
+
+        .status-rejected,
+        .status-cancelled {
+            background: #f9e9e6;
+            color: #aa5147;
+        }
+
+        .status-rejected .status-dot,
+        .status-cancelled .status-dot {
+            background: #d05d50;
+        }
+
+        .status-other {
+            background: #edf1ec;
+            color: #667369;
+        }
+
+        .status-other .status-dot {
+            background: #89958c;
+        }
+
+
+        /* =====================================================
+           ORDER TOTAL HEADER
+        ===================================================== */
+
+        .order-total-header {
+            text-align: right;
+        }
+
+        .order-total-header .header-label {
+            text-align: right;
+        }
+
+        .order-total-value {
+            color: #587b5b;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           PRODUCTS
+        ===================================================== */
+
+        .products-section {
+            padding: 22px 27px 18px;
+        }
+
+        .section-title {
+            margin: 0 0 14px;
+            color: #405442;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .products-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-row {
+            display: grid;
+            grid-template-columns:
+                72px
+                minmax(0, 1fr)
+                90px
+                100px
+                110px;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 0;
+            border-top: 1px solid #edf1eb;
+        }
+
+        .product-row:first-child {
+            border-top: 0;
+        }
+
+
+        /* =====================================================
+           PRODUCT IMAGE
+        ===================================================== */
+
+        .product-image-box {
+            width: 72px;
+            height: 72px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dbe5d8;
+            border-radius: 12px;
+            background: #f1f5ef;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .product-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #799275;
+            font-size: 26px;
+        }
+
+
+        /* =====================================================
+           PRODUCT INFORMATION
+        ===================================================== */
+
+        .product-details {
+            min-width: 0;
+        }
+
+        .product-name {
+            margin: 0;
+            color: #35483a;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .product-category {
+            margin-top: 5px;
+            color: #789275;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .product-price-note {
+            margin-top: 6px;
+            color: #8b968d;
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           PRODUCT COLUMNS
+        ===================================================== */
+
+        .product-column {
+            color: #56655a;
+            font-size: 11px;
+        }
+
+        .product-column-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #9ba69e;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .product-column-value {
+            color: #46564b;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .product-subtotal {
+            color: #587b5b;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+
+        /* =====================================================
+           PAYMENT + ADDRESS
+           COMPACT
+           PAYMENT SHOWN ONLY ONCE
+        ===================================================== */
+
+        .order-information {
+            display: grid;
+            grid-template-columns:
+                minmax(220px, .75fr)
+                minmax(0, 1.25fr);
+            align-items: start;
+            border-top: 1px solid #e5ebe2;
+            background: #f8faf7;
+        }
+
+        .information-block {
+            min-height: 0;
+            padding: 15px 27px 16px;
+        }
+
+        .information-block + .information-block {
+            border-left: 1px solid #e1e8df;
+        }
+
+        .information-title {
+            margin: 0 0 9px;
+            color: #4a5d4e;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           PAYMENT
+        ===================================================== */
+
+        .payment-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .payment-method {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 18px;
+            background: #e8f1e6;
+            color: #547858;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 18px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .payment-status-paid {
+            background: #e5f1e4;
+            color: #3f7147;
+        }
+
+        .payment-status-paid .status-dot {
+            background: #57945f;
+        }
+
+        .payment-status-pending {
+            background: #f8efd8;
+            color: #94721f;
+        }
+
+        .payment-status-pending .status-dot {
+            background: #d29b2c;
+        }
+
+        .payment-status-rejected {
+            background: #f7e8e5;
+            color: #a34e46;
+        }
+
+        .payment-status-rejected .status-dot {
+            background: #d0574b;
+        }
+
+        .payment-status-neutral {
+            background: #edf0ed;
+            color: #627067;
+        }
+
+        .payment-status-neutral .status-dot {
+            background: #87938a;
+        }
+
+        .utr {
+            margin-top: 7px;
+            color: #87938a;
+            font-size: 9px;
+        }
+
+        .utr strong {
+            color: #536359;
+            font-family:
+                "Courier New",
+                monospace;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           ADDRESS
+           NO ARTIFICIAL HEIGHT
+        ===================================================== */
+
+        .address {
+            max-width: 600px;
+            color: #68766c;
+            font-size: 10px;
+            line-height: 1.45;
+            white-space: pre-line;
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           ORDER FOOTER
+        ===================================================== */
+
+        .order-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 27px;
+            border-top: 1px solid #e4ebe2;
+            background: #ffffff;
+        }
+
+        .footer-total-label {
+            color: #8b968d;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .footer-total-value {
+            margin-top: 4px;
+            color: #304638;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .order-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .order-actions form {
+            margin: 0;
+        }
+
+        .reorder-button,
+        .delete-button {
+            height: 40px;
+            padding: 0 18px;
+            border-radius: 9px;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        .reorder-button {
+            border: 1px solid #638767;
+            background: #638767;
+            color: #ffffff;
+        }
+
+        .reorder-button:hover {
+            background: #527457;
+            box-shadow:
+                0 5px 14px rgba(72, 111, 77, .18);
+            transform: translateY(-1px);
+        }
+
+        .delete-button {
+            border: 1px solid #e3cbc7;
+            background: #fff8f7;
+            color: #ae574e;
+        }
+
+        .delete-button:hover {
+            background: #fff0ee;
+            box-shadow:
+                0 5px 14px rgba(170, 73, 63, .08);
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+            padding: 70px 30px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #dfe6dc;
+            border-radius: 17px;
+            box-shadow:
+                0 8px 28px rgba(49, 68, 52, .055);
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #eaf2e7;
+            color: #678466;
+            font-size: 25px;
+        }
+
+        .empty-title {
+            margin: 0;
+            color: #36483b;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .empty-text {
+            max-width: 430px;
+            margin: 9px auto 22px;
+            color: #89938a;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .shopping-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 42px;
+            padding: 0 21px;
+            border-radius: 9px;
+            background: #638767;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .shopping-button:hover {
+            background: #527457;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .order-header {
+                grid-template-columns:
+                    1fr
+                    1fr;
+                gap: 18px;
+            }
+
+            .order-total-header {
+                text-align: left;
+            }
+
+            .order-total-header .header-label {
+                text-align: left;
+            }
+
+            .product-row {
+                grid-template-columns:
+                    64px
+                    minmax(0, 1fr)
+                    85px
+                    95px;
+            }
+
+            .product-subtotal {
+                text-align: left;
+            }
+
+            .product-row .product-subtotal {
+                display: none;
+            }
+
+            .order-information {
+                grid-template-columns:
+                    1fr
+                    1.4fr;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .page {
+                padding: 30px 15px 50px;
+            }
+
+            .page-header {
+                align-items: center;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .header-left {
+                width: 100%;
+            }
+
+            .page-title {
+                font-size: 34px;
+            }
+
+            .account-link {
+                width: 100%;
+            }
+
+            .order-header {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .products-section {
+                padding: 20px;
+            }
+
+            .product-row {
+                grid-template-columns:
+                    62px
+                    minmax(0, 1fr);
+                gap: 14px;
+            }
+
+            .product-column {
+                display: none;
+            }
+
+            .product-row .product-subtotal {
+                display: block;
+                grid-column: 2;
+                text-align: left;
+            }
+
+            .order-information {
+                grid-template-columns: 1fr;
+            }
+
+            .information-block {
+                padding: 14px 20px 15px;
+            }
+
+            .information-block + .information-block {
+                border-left: 0;
+                border-top: 1px solid #e1e8df;
+            }
+
+            .order-footer {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 19px 20px;
+            }
+
+            .order-actions {
+                width: 100%;
+            }
+
+            .reorder-button,
+            .delete-button {
+                flex: 1;
+            }
+        }
+
+
+        @media (max-width: 430px) {
+
+            .page-title {
+                font-size: 30px;
+            }
+
+            .order-number {
+                font-size: 20px;
+            }
+
+            .product-image-box {
+                width: 62px;
+                height: 62px;
+            }
+
+            .product-name {
+                font-size: 14px;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .reorder-button,
+            .delete-button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <div class="container">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================= -->
+
+        <header class="page-header">
+
+            <div class="header-left">
+
+                <div class="eyebrow">
+                    Your Tasteof Home Journey
+                </div>
+
+                <h1 class="page-title">
+                    My <span>Orders</span>
+                </h1>
+
+                <p class="page-subtitle">
+                    View your order history, products,
+                    payment information and delivery details.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/account"
+                class="account-link"
+            >
+                ← My Account
+            </a>
+
+        </header>
+
+
+        <!-- =================================================
+             ORDERS
+        ================================================= -->
+
+        {% if orders %}
+
+        <div class="orders-list">
+
+
+            {% for order in orders %}
+
+            <article class="order-card">
+
+
+                <!-- =========================================
+                     ORDER HEADER
+                     PAYMENT IS NOT HERE
+                ========================================== -->
+
+                <div class="order-header">
+
+
+                    <!-- ORDER -->
+
+                    <div class="order-heading">
+
+                        <h2 class="order-number">
+                            Order #{{ order.id }}
+                        </h2>
+
+                        <div class="order-date">
+
+                            {% if order.created_at %}
+
+                                {{ order.created_at.strftime(
+                                    '%d %b %Y, %I:%M %p'
+                                ) }}
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ORDER STATUS -->
+
+                    <div class="header-info">
+
+                        <span class="header-label">
+                            Order Status
+                        </span>
+
+
+                        {% set order_status =
+                            (order.status or "Pending")|lower
+                        %}
+
+
+                        {% if order_status == "delivered" %}
+
+                            <span class="status-badge status-delivered">
+
+                                <span class="status-dot"></span>
+
+                                Delivered
+
+                            </span>
+
+
+                        {% elif order_status == "confirmed" %}
+
+                            <span class="status-badge status-confirmed">
+
+                                <span class="status-dot"></span>
+
+                                Confirmed
+
+                            </span>
+
+
+                        {% elif order_status == "preparing" %}
+
+                            <span class="status-badge status-preparing">
+
+                                <span class="status-dot"></span>
+
+                                Preparing
+
+                            </span>
+
+
+                        {% elif order_status == "pending" %}
+
+                            <span class="status-badge status-pending">
+
+                                <span class="status-dot"></span>
+
+                                Pending
+
+                            </span>
+
+
+                        {% elif "reject" in order_status %}
+
+                            <span class="status-badge status-rejected">
+
+                                <span class="status-dot"></span>
+
+                                {{ order.status }}
+
+                            </span>
+
+
+                        {% elif "cancel" in order_status %}
+
+                            <span class="status-badge status-cancelled">
+
+                                <span class="status-dot"></span>
+
+                                {{ order.status }}
+
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="status-badge status-other">
+
+                                <span class="status-dot"></span>
+
+                                {{ order.status or "Pending" }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ORDER TOTAL -->
+
+                    <div class="order-total-header">
+
+                        <span class="header-label">
+                            Order Total
+                        </span>
+
+                        <div class="order-total-value">
+
+                            ₹{{ "%.2f"|format(
+                                order.total_amount or 0
+                            ) }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     PRODUCTS
+                ========================================== -->
+
+                <section class="products-section">
+
+                    <h3 class="section-title">
+                        Products Ordered
+                    </h3>
+
+
+                    <div class="products-list">
+
+
+                        {% for item in order.items %}
+
+                        <div class="product-row">
+
+
+                            <!-- PRODUCT IMAGE -->
+
+                            <div class="product-image-box">
+
+                                {% if item.product and item.product.image %}
+
+                                    <img
+                                        src="{{ url_for('static', path='images/' ~ item.product.image) }}?v={{ item.product.id }}"
+                                        alt="{{ item.product.name }}"
+                                        class="product-image"
+                                        loading="lazy"
+                                    >
+
+                                {% else %}
+
+                                    <div class="product-placeholder">
+                                        🛍️
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- PRODUCT DETAILS -->
+
+                            <div class="product-details">
+
+                                <h4 class="product-name">
+
+                                    {% if item.product %}
+
+                                        {{ item.product.name }}
+
+                                    {% else %}
+
+                                        Product
+
+                                    {% endif %}
+
+                                </h4>
+
+
+                                {% if item.product and item.product.category %}
+
+                                    <div class="product-category">
+                                        {{ item.product.category }}
+                                    </div>
+
+                                {% endif %}
+
+
+                                <div class="product-price-note">
+
+                                    ₹{{ "%.2f"|format(
+                                        item.price or 0
+                                    ) }}
+
+                                    per item
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PRICE -->
+
+                            <div class="product-column">
+
+                                <span class="product-column-label">
+                                    Price
+                                </span>
+
+                                <span class="product-column-value">
+
+                                    ₹{{ "%.2f"|format(
+                                        item.price or 0
+                                    ) }}
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- QUANTITY -->
+
+                            <div class="product-column">
+
+                                <span class="product-column-label">
+                                    Quantity
+                                </span>
+
+                                <span class="product-column-value">
+
+                                    × {{ item.quantity }}
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- SUBTOTAL -->
+
+                            <div class="product-column product-subtotal">
+
+                                <span class="product-column-label">
+                                    Item Total
+                                </span>
+
+                                ₹{{ "%.2f"|format(
+                                    (item.price or 0) *
+                                    (item.quantity or 0)
+                                ) }}
+
+                            </div>
+
+
+                        </div>
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     PAYMENT + DELIVERY
+                     PAYMENT APPEARS ONLY ONCE
+                     COMPACT HEIGHT
+                ========================================== -->
+
+                <div class="order-information">
+
+
+                    <!-- PAYMENT -->
+
+                    <section class="information-block">
+
+                        <h3 class="information-title">
+                            Payment Details
+                        </h3>
+
+
+                        <div class="payment-content">
+
+
+                            {% if order.payment_method %}
+
+                                <span class="payment-method">
+
+                                    {% if
+                                        order.payment_method|lower == "online"
+                                    %}
+
+                                        UPI
+
+                                    {% else %}
+
+                                        {{ order.payment_method }}
+
+                                    {% endif %}
+
+                                </span>
+
+                            {% endif %}
+
+
+                            {% set payment_status =
+                                (order.payment_status or "Pending")|lower
+                            %}
+
+
+                            {% if payment_status == "paid" %}
+
+                                <span class="
+                                    payment-status
+                                    payment-status-paid
+                                ">
+
+                                    <span class="status-dot"></span>
+
+                                    Paid
+
+                                </span>
+
+
+                            {% elif payment_status == "rejected" %}
+
+                                <span class="
+                                    payment-status
+                                    payment-status-rejected
+                                ">
+
+                                    <span class="status-dot"></span>
+
+                                    Rejected
+
+                                </span>
+
+
+                            {% elif
+                                payment_status == "pending verification"
+                            %}
+
+                                <span class="
+                                    payment-status
+                                    payment-status-pending
+                                ">
+
+                                    <span class="status-dot"></span>
+
+                                    Pending Verification
+
+                                </span>
+
+
+                            {% elif payment_status == "pending" %}
+
+                                <span class="
+                                    payment-status
+                                    payment-status-pending
+                                ">
+
+                                    <span class="status-dot"></span>
+
+                                    Pending
+
+                                </span>
+
+
+                            {% else %}
+
+                                <span class="
+                                    payment-status
+                                    payment-status-neutral
+                                ">
+
+                                    <span class="status-dot"></span>
+
+                                    {{ order.payment_status }}
+
+                                </span>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                        {% if order.utr_number %}
+
+                            <div class="utr">
+
+                                UTR:
+
+                                <strong>
+                                    {{ order.utr_number }}
+                                </strong>
+
+                            </div>
+
+                        {% endif %}
+
+                    </section>
+
+
+                    <!-- DELIVERY ADDRESS -->
+
+                    <section class="information-block">
+
+                        <h3 class="information-title">
+                            Delivery Address
+                        </h3>
+
+                        <div class="address">
+
+                            {{ order.shipping_address
+                               or
+                               "No delivery address available."
+                            }}
+
+                        </div>
+
+                    </section>
+
+
+                </div>
+
+
+                <!-- =========================================
+                     ORDER FOOTER
+                ========================================== -->
+
+                <footer class="order-footer">
+
+
+                    <!-- TOTAL -->
+
+                    <div>
+
+                        <div class="footer-total-label">
+                            ORDER TOTAL
+                        </div>
+
+                        <div class="footer-total-value">
+
+                            ₹{{ "%.2f"|format(
+                                order.total_amount or 0
+                            ) }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="order-actions">
+
+
+                        <!-- REORDER -->
+
+                        <form
+                            action="/reorder/{{ order.id }}"
+                            method="post"
+                        >
+
+                            <button
+                                type="submit"
+                                class="reorder-button"
+                            >
+                                ↻ Reorder
+                            </button>
+
+                        </form>
+
+
+                        <!-- DELETE -->
+
+                        <form
+                            action="/my-orders/{{ order.id }}/delete"
+                            method="post"
+                            onsubmit="
+                                return confirm(
+                                    'Are you sure you want to delete this order?'
+                                );
+                            "
+                        >
+
+                            <button
+                                type="submit"
+                                class="delete-button"
+                            >
+                                Delete
+                            </button>
+
+                        </form>
+
+
+                    </div>
+
+                </footer>
+
+
+            </article>
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =================================================
+             NO ORDERS
+        ================================================= -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                🛍️
+            </div>
+
+            <h2 class="empty-title">
+                Haven’t ordered yet?
+            </h2>
+
+            <p class="empty-text">
+
+                Explore our homemade masalas, pickles,
+                chutneys and snacks and discover something
+                delicious for your next meal.
+
+            </p>
+
+            <a
+                href="/shop"
+                class="shopping-button"
+            >
+                Start Shopping →
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

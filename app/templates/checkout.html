@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout | Tasteof Home</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="checkout-page">
+
+
+    <div class="container">
+
+
+        <!-- HEADER -->
+
+        <div class="checkout-header">
+
+            <div>
+
+                <span class="checkout-label">
+                    CHECKOUT
+                </span>
+
+                <h1>
+                    Complete your order
+                </h1>
+
+                <p>
+                    Add your delivery details and place your order.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/cart"
+                class="back-cart"
+            >
+                ← Back to Cart
+            </a>
+
+        </div>
+
+
+
+        <!-- CHECKOUT -->
+
+        <form
+            action="/place-order"
+            method="post"
+            class="checkout-layout"
+            id="checkoutForm"
+        >
+
+
+            <!-- DELIVERY -->
+
+            <div class="checkout-form-card">
+
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span>
+                            DELIVERY DETAILS
+                        </span>
+
+                        <h2>
+                            Where should we deliver?
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="location-row">
+
+                    <button
+                        type="button"
+                        class="use-location-button"
+                        onclick="getCurrentLocation()"
+                    >
+
+                        <span>⌖</span>
+
+                        Use my current location
+
+                    </button>
+
+                    <span
+                        id="location-status"
+                        class="location-status"
+                    ></span>
+
+                </div>
+
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- MOBILE -->
+
+                <div class="form-group">
+
+                    <label for="mobile_number">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="mobile_number"
+                        name="mobile_number"
+                        placeholder="10-digit mobile number"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="shipping_address">
+                        Delivery Address
+                    </label>
+
+                    <div class="address-helper">
+
+                        <span>📍</span>
+
+                        <small>
+                            Use your current location or enter your address manually.
+                        </small>
+
+                    </div>
+
+
+                    <textarea
+                        id="shipping_address"
+                        name="shipping_address"
+                        rows="4"
+                        placeholder="House / Flat number, street, area"
+                        required
+                    ></textarea>
+
+
+                    <div class="address-confirm-note">
+
+                        <span>✓</span>
+
+                        <small>
+                            Please make sure your address is correct for delivery.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CITY + PINCODE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="city">
+                            City
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            placeholder="City"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="pincode">
+                            Pincode
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pincode"
+                            name="pincode"
+                            placeholder="6-digit pincode"
+                            maxlength="6"
+                            pattern="[0-9]{6}"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- SECURITY -->
+
+                <div class="checkout-trust">
+
+                    <span>
+                        🔒
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Safe & secure checkout
+                        </strong>
+
+                        <small>
+                            Your delivery information is used only to process your order.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ORDER SUMMARY -->
+
+            <aside class="checkout-summary">
+
+
+                <span class="summary-label">
+                    ORDER SUMMARY
+                </span>
+
+
+                <h2>
+                    Your Order
+                </h2>
+
+
+
+                <div class="summary-products">
+
+                    {% for item in cart_items %}
+
+                    <div class="summary-product">
+
+
+                        <div class="summary-product-icon">
+
+                            {% if item.product.image %}
+
+                                <img
+                                    src="{{ item.product.image }}"
+                                    alt="{{ item.product.name }}"
+                                >
+
+                            {% else %}
+
+                                🌶️
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-product-info">
+
+                            <strong>
+                                {{ item.product.name }}
+                            </strong>
+
+                            <span>
+                                Qty {{ item.quantity }}
+                            </span>
+
+                        </div>
+
+
+                        <strong class="summary-product-price">
+
+                            ₹{{ item.product.price * item.quantity }}
+
+                        </strong>
+
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+
+                <div class="summary-divider"></div>
+
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Items
+                    </span>
+
+                    <span>
+                        {{ cart_items|length }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <span class="free-delivery">
+                        FREE
+                    </span>
+
+                </div>
+
+
+
+                <div class="summary-divider"></div>
+
+
+
+                <!-- PAYMENT METHOD -->
+
+                <div class="summary-payment">
+
+                    <div class="summary-payment-title">
+
+                        <span>
+                            PAYMENT
+                        </span>
+
+                    </div>
+
+
+                    <label class="summary-payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="cod"
+                            checked
+                        >
+
+                        <div>
+
+                            <strong>
+                                Cash on Delivery
+                            </strong>
+
+                            <small>
+                                Pay when your order arrives
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="summary-payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="online"
+                        >
+
+                        <div>
+
+                            <strong>
+                                Online Payment
+                            </strong>
+
+                            <small>
+                                Pay securely online
+                            </small>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="summary-divider"></div>
+
+
+
+                <!-- TOTAL -->
+
+                <div class="checkout-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹{{ cart_total }}
+                    </strong>
+
+                </div>
+
+
+
+                <!-- PLACE ORDER -->
+
+                <button
+                    type="submit"
+                    class="place-order-button"
+                    id="placeOrderButton"
+                >
+
+                    <span class="place-order-text">
+                        Place Order
+                    </span>
+
+                    <span class="place-order-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <p class="checkout-note">
+
+                    By placing your order, you agree to our
+                    order and delivery terms.
+
+                </p>
+
+
+            </aside>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   CHECKOUT PAGE
+   ========================================================= */
+
+.checkout-page {
+
+    min-height: 100vh;
+
+    padding: 55px 0 80px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f6ed,
+            #fbf8ee
+        );
+
+}
+
+
+
+.checkout-header {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 32px;
+
+}
+
+
+
+.checkout-label {
+
+    color: #65805f;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+}
+
+
+
+.checkout-header h1 {
+
+    margin: 6px 0 0;
+
+    color: #28372d;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 38px;
+
+    line-height: 1.15;
+
+}
+
+
+
+.checkout-header p {
+
+    margin-top: 8px;
+
+    color: #7d847b;
+
+    font-size: 13px;
+
+}
+
+
+
+.back-cart {
+
+    color: #597653;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+}
+
+
+
+.back-cart:hover {
+
+    text-decoration: underline;
+
+}
+
+
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.checkout-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(320px, .8fr);
+
+    gap: 24px;
+
+    align-items: start;
+
+}
+
+
+
+/* =========================================================
+   DELIVERY CARD
+   ========================================================= */
+
+.checkout-form-card {
+
+    padding: 30px;
+
+    background: #fffdf7;
+
+    border: 1px solid #e3e5d9;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 12px 35px rgba(55, 70, 52, .06);
+
+}
+
+
+
+.card-heading {
+
+    margin-bottom: 24px;
+
+}
+
+
+
+.card-heading span {
+
+    color: #71806c;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+
+.card-heading h2 {
+
+    margin-top: 5px;
+
+    color: #354338;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 23px;
+
+}
+
+
+
+/* =========================================================
+   LOCATION
+   ========================================================= */
+
+.location-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 22px;
+
+}
+
+
+
+.use-location-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 9px 13px;
+
+    border: 1px solid #b8c9af;
+
+    border-radius: 7px;
+
+    background: #f1f5eb;
+
+    color: #55734f;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+
+.use-location-button:hover {
+
+    background: #e8f0e1;
+
+}
+
+
+
+.use-location-button:disabled {
+
+    opacity: .7;
+
+    cursor: wait;
+
+}
+
+
+
+.use-location-button span {
+
+    font-size: 15px;
+
+}
+
+
+
+.location-status {
+
+    color: #7d8779;
+
+    font-size: 10px;
+
+}
+
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-group {
+
+    margin-bottom: 18px;
+
+}
+
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #485247;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+
+.form-group input,
+.form-group textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d9ddd2;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #fffefa;
+
+    color: #354137;
+
+    padding: 12px 13px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+
+.form-group input {
+
+    height: 45px;
+
+}
+
+
+
+.form-group textarea {
+
+    min-height: 105px;
+
+    resize: vertical;
+
+}
+
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+
+    color: #a3a79f;
+
+}
+
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+
+    border-color: #78966f;
+
+    box-shadow:
+        0 0 0 3px rgba(104, 137, 96, .09);
+
+}
+
+
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 15px;
+
+}
+
+
+
+/* =========================================================
+   ADDRESS HELPERS
+   ========================================================= */
+
+.address-helper {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin: -2px 0 8px;
+
+    color: #7b8378;
+
+}
+
+
+
+.address-helper span {
+
+    font-size: 13px;
+
+}
+
+
+
+.address-helper small {
+
+    font-size: 10px;
+
+}
+
+
+
+.address-confirm-note {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: -10px;
+
+    margin-bottom: 18px;
+
+    color: #71806d;
+
+}
+
+
+
+.address-confirm-note span {
+
+    width: 17px;
+
+    height: 17px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #e7efdf;
+
+    color: #5f7d58;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+
+.address-confirm-note small {
+
+    font-size: 9px;
+
+}
+
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+.checkout-trust {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 5px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid #e6e8df;
+
+}
+
+
+
+.checkout-trust > span {
+
+    font-size: 15px;
+
+}
+
+
+
+.checkout-trust div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+}
+
+
+
+.checkout-trust strong {
+
+    color: #5b6e57;
+
+    font-size: 10px;
+
+}
+
+
+
+.checkout-trust small {
+
+    color: #92988f;
+
+    font-size: 9px;
+
+}
+
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.checkout-summary {
+
+    position: sticky;
+
+    top: 20px;
+
+    padding: 25px;
+
+    background: #fffdf7;
+
+    border: 1px solid #e3e5d9;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 12px 35px rgba(55, 70, 52, .07);
+
+}
+
+
+
+.summary-label {
+
+    color: #71846b;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+
+.checkout-summary h2 {
+
+    margin: 5px 0 20px;
+
+    color: #354238;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 23px;
+
+}
+
+
+
+/* =========================================================
+   PRODUCTS
+   ========================================================= */
+
+.summary-products {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 13px;
+
+}
+
+
+
+.summary-product {
+
+    display: grid;
+
+    grid-template-columns:
+        44px 1fr auto;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+
+.summary-product-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    overflow: hidden;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 8px;
+
+    background: #edf2e7;
+
+    font-size: 18px;
+
+}
+
+
+
+.summary-product-icon img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+
+.summary-product-info {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+
+.summary-product-info strong {
+
+    overflow: hidden;
+
+    color: #414a40;
+
+    font-size: 11px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+
+.summary-product-info span {
+
+    color: #969c93;
+
+    font-size: 9px;
+
+}
+
+
+
+.summary-product-price {
+
+    color: #4d5e49;
+
+    font-size: 11px;
+
+}
+
+
+
+/* =========================================================
+   PAYMENT
+   ========================================================= */
+
+.summary-payment {
+
+    margin-top: 5px;
+
+}
+
+
+
+.summary-payment-title {
+
+    margin-bottom: 10px;
+
+}
+
+
+
+.summary-payment-title span {
+
+    color: #6c8268;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+
+}
+
+
+
+.summary-payment-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 10px;
+
+    margin-bottom: 7px;
+
+    border: 1px solid #e2e6dd;
+
+    border-radius: 9px;
+
+    background: #fffefa;
+
+    cursor: pointer;
+
+    transition:
+        border-color .2s ease,
+        background .2s ease;
+
+}
+
+
+
+.summary-payment-option:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+.summary-payment-option:hover {
+
+    border-color: #b4c3ae;
+
+    background: #f8faf5;
+
+}
+
+
+
+.summary-payment-option input {
+
+    width: 15px;
+
+    height: 15px;
+
+    margin: 0;
+
+    accent-color: #5f7d58;
+
+}
+
+
+
+.summary-payment-option div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+}
+
+
+
+.summary-payment-option strong {
+
+    color: #465246;
+
+    font-size: 10px;
+
+}
+
+
+
+.summary-payment-option small {
+
+    color: #969d94;
+
+    font-size: 8px;
+
+}
+
+
+
+/* =========================================================
+   TOTAL
+   ========================================================= */
+
+.summary-divider {
+
+    height: 1px;
+
+    margin: 18px 0;
+
+    background: #e5e8df;
+
+}
+
+
+
+.summary-line {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    color: #7e857c;
+
+    font-size: 11px;
+
+}
+
+
+
+.summary-line span:last-child {
+
+    color: #4d584b;
+
+    font-weight: 600;
+
+}
+
+
+
+.free-delivery {
+
+    color: #64805e !important;
+
+    font-weight: 700 !important;
+
+}
+
+
+
+.checkout-total {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+}
+
+
+
+.checkout-total span {
+
+    color: #3e493f;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+
+.checkout-total strong {
+
+    color: #52774d;
+
+    font-size: 22px;
+
+}
+
+
+
+/* =========================================================
+   PLACE ORDER
+   ========================================================= */
+
+.place-order-button {
+
+    width: 100%;
+
+    min-height: 49px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #668960,
+            #4f714a
+        );
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 20px rgba(79, 113, 74, .16);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+
+.place-order-button:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 11px 24px rgba(79, 113, 74, .22);
+
+}
+
+
+
+.place-order-button:disabled {
+
+    opacity: .7;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+
+.place-order-button.loading {
+
+    pointer-events: none;
+
+}
+
+
+
+.place-order-button.loading .place-order-arrow {
+
+    display: none;
+
+}
+
+
+
+.place-order-button.loading .place-order-text::after {
+
+    content: " Placing...";
+
+}
+
+
+
+.place-order-button span {
+
+    font-size: 16px;
+
+}
+
+
+
+.checkout-note {
+
+    margin: 11px 0 0;
+
+    color: #9a9e97;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+}
+
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .checkout-layout {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .checkout-summary {
+
+        position: static;
+
+    }
+
+}
+
+
+
+@media (max-width: 600px) {
+
+    .checkout-page {
+
+        padding: 35px 0 55px;
+
+    }
+
+    .checkout-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+
+    }
+
+    .checkout-header h1 {
+
+        font-size: 31px;
+
+    }
+
+    .checkout-form-card,
+    .checkout-summary {
+
+        padding: 21px;
+
+    }
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+    }
+
+    .location-row {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}
+
+</style>
+
+
+
+<script>
+
+/* =========================================================
+   CHECKOUT SUBMIT
+   ========================================================= */
+
+document
+    .getElementById("checkoutForm")
+    .addEventListener("submit", function (event) {
+
+        const button =
+            document.getElementById("placeOrderButton");
+
+        if (!button) {
+            return;
+        }
+
+        /*
+         * Let browser validation happen first.
+         * If the form is invalid, do not disable
+         * the button.
+         */
+
+        if (!this.checkValidity()) {
+            return;
+        }
+
+        button.disabled = true;
+
+        button.classList.add("loading");
+
+    });
+
+
+
+/* =========================================================
+   CURRENT LOCATION
+   ========================================================= */
+
+function getCurrentLocation() {
+
+    const button =
+        document.querySelector(".use-location-button");
+
+    const status =
+        document.getElementById("location-status");
+
+
+    if (!navigator.geolocation) {
+
+        alert(
+            "Location is not supported by your browser."
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.innerHTML =
+        "📍 Detecting your location...";
+
+
+    if (status) {
+
+        status.textContent =
+            "Getting your address...";
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function (position) {
+
+            const latitude =
+                position.coords.latitude;
+
+            const longitude =
+                position.coords.longitude;
+
+
+            try {
+
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to contact location service."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.address) {
+
+                    throw new Error(
+                        "Address not found"
+                    );
+
+                }
+
+
+                const address =
+                    data.address;
+
+
+                const addressParts = [];
+
+
+                if (address.house_number) {
+
+                    addressParts.push(
+                        address.house_number
+                    );
+
+                }
+
+
+                if (address.road) {
+
+                    addressParts.push(
+                        address.road
+                    );
+
+                }
+
+
+                if (address.neighbourhood) {
+
+                    addressParts.push(
+                        address.neighbourhood
+                    );
+
+                }
+
+
+                if (address.suburb) {
+
+                    addressParts.push(
+                        address.suburb
+                    );
+
+                }
+
+
+                if (address.village) {
+
+                    addressParts.push(
+                        address.village
+                    );
+
+                }
+
+
+                document
+                    .getElementById("shipping_address")
+                    .value =
+                    addressParts.join(", ");
+
+
+                document
+                    .getElementById("city")
+                    .value =
+                    address.city ||
+                    address.town ||
+                    address.village ||
+                    address.municipality ||
+                    "";
+
+
+                document
+                    .getElementById("pincode")
+                    .value =
+                    address.postcode ||
+                    "";
+
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    "✓ Location detected";
+
+
+                if (status) {
+
+                    status.textContent =
+                        "Address detected successfully.";
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Location error:",
+                    error
+                );
+
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    "📍 Use my current location";
+
+
+                if (status) {
+
+                    status.textContent =
+                        "";
+
+                }
+
+
+                alert(
+                    "We couldn't automatically find your address. Please enter it manually."
+                );
+
+            }
+
+        },
+
+
+        function (error) {
+
+            button.disabled = false;
+
+            button.innerHTML =
+                "📍 Use my current location";
+
+
+            if (status) {
+
+                status.textContent =
+                    "";
+
+            }
+
+
+            if (error.code === 1) {
+
+                alert(
+                    "Location permission was denied. Please allow location access or enter your address manually."
+                );
+
+            } else {
+
+                alert(
+                    "Unable to detect your location. Please enter your address manually."
+                );
+
+            }
+
+        },
+
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 15000,
+
+            maximumAge: 0
+
+        }
+
+    );
+
+}
+
+</script>
+
+
+
+</body>
+
+</html>

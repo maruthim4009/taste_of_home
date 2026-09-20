@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Product Management | Taste of Home</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f5ef;
+
+            color: #28372d;
+        }
+
+
+        /* =====================================================
+           PAGE
+           ===================================================== */
+
+        .page {
+            width: 100%;
+
+            max-width: 1500px;
+
+            margin: 0 auto;
+
+            padding:
+                45px 40px 70px;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .page-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .page-label {
+            color: #74846f;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            letter-spacing: 3px;
+        }
+
+
+        .page-title {
+            margin:
+                8px 0 0;
+
+            color: #24382a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 46px;
+
+            font-weight: 600;
+        }
+
+
+        .page-subtitle {
+            margin-top: 10px;
+
+            color: #8a9388;
+
+            font-size: 16px;
+        }
+
+
+        .header-buttons {
+            display: flex;
+
+            gap: 12px;
+        }
+
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 52px;
+
+            padding:
+                0 24px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+
+        .back-button {
+            background: white;
+
+            border:
+                1px solid
+                #dfe4da;
+
+            color: #405044;
+        }
+
+
+        .add-button {
+            background: #304936;
+
+            color: white;
+        }
+
+
+        .add-button:hover {
+            background: #24382a;
+        }
+
+
+        /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .summary-card {
+            padding: 25px;
+
+            background: white;
+
+            border:
+                1px solid
+                #e2e5dc;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(36, 56, 42, .05);
+        }
+
+
+        .summary-label {
+            color: #8a9388;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .summary-value {
+            margin-top: 12px;
+
+            color: #28392d;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 34px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           PRODUCT PANEL
+           ===================================================== */
+
+        .panel {
+            background: white;
+
+            border:
+                1px solid
+                #e2e5dc;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px
+                rgba(36, 56, 42, .05);
+        }
+
+
+        .panel-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                22px 25px;
+
+            border-bottom:
+                1px solid
+                #edf0e9;
+        }
+
+
+        .panel-title {
+            color: #304235;
+
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+
+        .panel-subtitle {
+            margin-top: 5px;
+
+            color: #9aa19a;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           TABLE
+           ===================================================== */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            min-width: 1050px;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+            padding:
+                17px 20px;
+
+            background: #fafbf8;
+
+            color: #7f897e;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+
+        td {
+            padding:
+                18px 20px;
+
+            border-top:
+                1px solid
+                #edf0e9;
+
+            color: #566258;
+
+            font-size: 15px;
+
+            vertical-align: middle;
+        }
+
+
+        tr:hover td {
+            background: #fcfdfb;
+        }
+
+
+        /* =====================================================
+           PRODUCT
+           ===================================================== */
+
+        .product-cell {
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            min-width: 300px;
+        }
+
+
+        .product-image {
+            width: 75px;
+
+            height: 75px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            border-radius: 12px;
+
+            background: #f0eee5;
+
+            border:
+                1px solid
+                #e0e2d9;
+
+            color: #9b6849;
+
+            font-size: 30px;
+        }
+
+
+        .product-image img {
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .product-name {
+            color: #304936;
+
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+
+        .product-description {
+            max-width: 300px;
+
+            margin-top: 5px;
+
+            overflow: hidden;
+
+            color: #9aa19a;
+
+            font-size: 13px;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           CATEGORY
+           ===================================================== */
+
+        .category {
+            display: inline-block;
+
+            padding:
+                7px 11px;
+
+            border-radius: 20px;
+
+            background: #edf2e9;
+
+            color: #5d7957;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           PRICE
+           ===================================================== */
+
+        .price {
+            color: #304936;
+
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           STOCK
+           ===================================================== */
+
+        .stock {
+            color: #405044;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .stock-low {
+            color: #a06f32;
+        }
+
+
+        .stock-out {
+            color: #a04c4c;
+        }
+
+
+        /* =====================================================
+           STATUS
+           ===================================================== */
+
+        .status {
+            display: inline-block;
+
+            padding:
+                7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .status-active {
+            background: #e8f1e5;
+
+            color: #4f7549;
+        }
+
+
+        .status-inactive {
+            background: #f0f1ee;
+
+            color: #777f76;
+        }
+
+
+        /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+        .actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .action-button {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 72px;
+
+            min-height: 38px;
+
+            padding:
+                0 13px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+
+        .edit-button {
+            background: #edf2e9;
+
+            color: #526c4d;
+        }
+
+
+        .edit-button:hover {
+            background: #e2ebdd;
+        }
+
+
+        .delete-button {
+            background: #f7e9e6;
+
+            color: #9a5148;
+        }
+
+
+        .delete-button:hover {
+            background: #f2ddda;
+        }
+
+
+        /* =====================================================
+           EMPTY
+           ===================================================== */
+
+        .empty {
+            padding:
+                70px 30px;
+
+            text-align: center;
+        }
+
+
+        .empty-icon {
+            font-size: 50px;
+        }
+
+
+        .empty-title {
+            margin-top: 15px;
+
+            color: #405044;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+
+        .empty-text {
+            margin-top: 8px;
+
+            color: #969e96;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .page {
+                padding:
+                    25px 15px 50px;
+            }
+
+
+            .page-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .page-title {
+                font-size: 36px;
+            }
+
+
+            .header-buttons {
+                width: 100%;
+            }
+
+
+            .button {
+                flex: 1;
+            }
+
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .summary-value {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="page-header">
+
+        <div>
+
+            <div class="page-label">
+                STORE MANAGEMENT
+            </div>
+
+
+            <h1 class="page-title">
+                Products
+            </h1>
+
+
+            <div class="page-subtitle">
+                Manage your homemade products, prices, stock and images.
+            </div>
+
+        </div>
+
+
+        <div class="header-buttons">
+
+            <a
+                href="/admin/dashboard"
+                class="button back-button"
+            >
+                ← Dashboard
+            </a>
+
+
+            <a
+                href="/admin/products/add"
+                class="button add-button"
+            >
+                + Add Product
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         SUMMARY
+         ===================================================== -->
+
+    <section class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                TOTAL PRODUCTS
+            </div>
+
+            <div class="summary-value">
+                {{ products|length }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                ACTIVE PRODUCTS
+            </div>
+
+            <div class="summary-value">
+                {{ products|selectattr("is_active")|list|length }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                OUT OF STOCK
+            </div>
+
+            <div class="summary-value">
+                {{ products|selectattr("stock", "equalto", 0)|list|length }}
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         PRODUCT PANEL
+         ===================================================== -->
+
+    <section class="panel">
+
+
+        <div class="panel-header">
+
+            <div>
+
+                <div class="panel-title">
+                    All Products
+                </div>
+
+                <div class="panel-subtitle">
+                    Products currently stored in your catalogue
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if products %}
+
+
+        <div class="table-wrapper">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            PRODUCT
+                        </th>
+
+                        <th>
+                            CATEGORY
+                        </th>
+
+                        <th>
+                            PRICE
+                        </th>
+
+                        <th>
+                            STOCK
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            ACTIONS
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for product in products %}
+
+
+                    <tr>
+
+
+                        <!-- PRODUCT -->
+
+                        <td>
+
+                            <div class="product-cell">
+
+
+                                <div class="product-image">
+
+
+                                    {% if product.image %}
+
+                                        <img
+                                            src="{{ url_for('static', path='images/' ~ product.image) }}"
+                                            alt="{{ product.name }}"
+                                        >
+
+                                    {% else %}
+
+                                        🌶️
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                                <div>
+
+
+                                    <div class="product-name">
+
+                                        {{ product.name }}
+
+                                    </div>
+
+
+                                    {% if product.description %}
+
+                                    <div class="product-description">
+
+                                        {{ product.description }}
+
+                                    </div>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- CATEGORY -->
+
+                        <td>
+
+
+                            {% if product.category %}
+
+                                <span class="category">
+
+                                    {{ product.category }}
+
+                                </span>
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- PRICE -->
+
+                        <td>
+
+                            <span class="price">
+
+                                ₹{{ "%.2f"|format(product.price or 0) }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- STOCK -->
+
+                        <td>
+
+
+                            {% if product.stock == 0 %}
+
+
+                                <span class="stock stock-out">
+
+                                    Out of stock
+
+                                </span>
+
+
+                            {% elif product.stock <= 5 %}
+
+
+                                <span class="stock stock-low">
+
+                                    {{ product.stock }} left
+
+                                </span>
+
+
+                            {% else %}
+
+
+                                <span class="stock">
+
+                                    {{ product.stock }}
+
+                                </span>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+
+                            {% if product.is_active %}
+
+
+                                <span class="status status-active">
+
+                                    ACTIVE
+
+                                </span>
+
+
+                            {% else %}
+
+
+                                <span class="status status-inactive">
+
+                                    INACTIVE
+
+                                </span>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- ACTIONS -->
+
+                        <td>
+
+
+                            <div class="actions">
+
+
+                                <!-- EDIT -->
+
+                                <a
+                                    href="/admin/products/edit/{{ product.id }}"
+                                    class="action-button edit-button"
+                                >
+                                    Edit
+                                </a>
+
+
+                                <!-- DELETE -->
+
+                                <form
+                                    action="/admin/products/delete/{{ product.id }}"
+                                    method="post"
+                                    style="display: inline;"
+                                    onsubmit="return confirm('Are you sure you want to delete this product?');"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="action-button delete-button"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </form>
+
+
+                            </div>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- EMPTY -->
+
+        <div class="empty">
+
+
+            <div class="empty-icon">
+                🌶️
+            </div>
+
+
+            <div class="empty-title">
+                No products yet
+            </div>
+
+
+            <div class="empty-text">
+                Add your first homemade product to start building your catalogue.
+            </div>
+
+
+            <br>
+
+
+            <a
+                href="/admin/products/add"
+                class="button add-button"
+            >
+                + Add Your First Product
+            </a>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+</div>
+
+
+</body>
+
+</html>

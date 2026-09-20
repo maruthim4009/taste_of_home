@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Product | Taste of Home</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5ef;
+            color: #28372d;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 45px 35px 70px;
+        }
+
+        /* HEADER */
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 35px;
+            gap: 20px;
+        }
+
+        .label {
+            color: #74846f;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 3px;
+        }
+
+        h1 {
+            margin: 8px 0 0;
+            color: #24382a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 44px;
+            font-weight: 600;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 22px;
+            border: 1px solid #dfe4da;
+            border-radius: 9px;
+            background: white;
+            color: #304936;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .back-button:hover {
+            background: #eef2ea;
+        }
+
+        /* FORM */
+
+        .form-card {
+            background: white;
+            border: 1px solid #e2e5dc;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(36, 56, 42, .06);
+        }
+
+        .form-title {
+            color: #304235;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            color: #8b9389;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 9px;
+            color: #405044;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #dfe4da;
+            border-radius: 9px;
+            background: #fafbf8;
+            color: #304235;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #71876b;
+            background: white;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        /* IMAGE */
+
+        .image-upload {
+            padding: 20px;
+            border: 2px dashed #d9dfd4;
+            border-radius: 12px;
+            background: #fafbf8;
+        }
+
+        .image-upload:hover {
+            border-color: #71876b;
+        }
+
+        .image-help {
+            margin-top: 9px;
+            color: #929b91;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ACTIVE */
+
+        .active-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 50px;
+            padding: 12px 15px;
+            border: 1px solid #dfe4da;
+            border-radius: 9px;
+            background: #fafbf8;
+        }
+
+        .active-box input {
+            width: 20px;
+            height: 20px;
+            accent-color: #304936;
+        }
+
+        .active-box span {
+            color: #405044;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* ACTIONS */
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #edf0e9;
+        }
+
+        .cancel-button,
+        .save-button {
+            min-height: 50px;
+            padding: 13px 25px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cancel-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dfe4da;
+            background: white;
+            color: #526052;
+        }
+
+        .save-button {
+            border: 0;
+            background: #304936;
+            color: white;
+        }
+
+        .save-button:hover {
+            background: #24382a;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .page {
+                padding: 25px 15px 45px;
+            }
+
+            .header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 35px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .cancel-button,
+            .save-button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div>
+
+            <div class="label">
+                STORE MANAGEMENT
+            </div>
+
+            <h1>
+                Add Product
+            </h1>
+
+        </div>
+
+
+        <a
+            href="/admin/products"
+            class="back-button"
+        >
+            ← Products
+        </a>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <div class="form-card">
+
+
+        <div class="form-title">
+            Product Information
+        </div>
+
+
+        <div class="form-subtitle">
+            Add a new homemade product to your Taste of Home store.
+        </div>
+
+
+        <form
+            action="/admin/products/add"
+            method="post"
+            enctype="multipart/form-data"
+        >
+
+
+            <div class="form-grid">
+
+
+                <!-- PRODUCT NAME -->
+
+                <div class="form-group full">
+
+                    <label for="name">
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Example: Homemade Mango Pickle"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                    >
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                        <option value="Pickles">
+                            Pickles
+                        </option>
+
+                        <option value="Spice Powders">
+                            Spice Powders
+                        </option>
+
+                        <option value="Masalas">
+                            Masalas
+                        </option>
+
+                        <option value="Chutneys">
+                            Chutneys
+                        </option>
+
+                        <option value="Snacks">
+                            Snacks
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="form-group">
+
+                    <label for="price">
+                        Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        placeholder="250"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- STOCK -->
+
+                <div class="form-group">
+
+                    <label for="stock">
+                        Stock Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="stock"
+                        name="stock"
+                        placeholder="20"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="form-group">
+
+                    <label for="image">
+                        Product Image
+                    </label>
+
+                    <div class="image-upload">
+
+                        <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/*"
+                        >
+
+                        <div class="image-help">
+                            Upload JPG, JPEG, PNG or WEBP product image.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group full">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Describe the homemade product..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- ACTIVE -->
+
+                <div class="form-group full">
+
+                    <label>
+                        Product Status
+                    </label>
+
+                    <div class="active-box">
+
+                        <input
+                            type="checkbox"
+                            id="is_active"
+                            name="is_active"
+                            checked
+                        >
+
+                        <span>
+                            Product is active and visible in the shop
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+
+                <a
+                    href="/admin/products"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    Save Product
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

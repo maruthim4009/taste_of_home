@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Order #{{ order.id }} | Tasteof Home
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+    <style>
+
+        .order-page {
+            min-height: 70vh;
+            padding: 60px 0;
+            background: #f8f4ef;
+        }
+
+        .order-container {
+            max-width: 950px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .order-header {
+            margin-bottom: 30px;
+        }
+
+        .order-header h1 {
+            margin: 0;
+            color: #3b2418;
+            font-size: 38px;
+        }
+
+        .order-header p {
+            color: #8a817a;
+            margin-top: 8px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            margin: 0 0 20px;
+            color: #3b2418;
+            font-size: 18px;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .info-box {
+            padding: 16px;
+            background: #f8f4ef;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            display: block;
+            color: #8a817a;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            color: #3b2418;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #f8f0e8;
+            color: #62361f;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .payment {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #edf4ec;
+            color: #397044;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .order-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .order-table th {
+            padding: 13px;
+            text-align: left;
+            background: #f8f4ef;
+            color: #6f6259;
+            font-size: 11px;
+        }
+
+        .order-table td {
+            padding: 16px 13px;
+            border-bottom: 1px solid #eee3d9;
+            color: #6f6259;
+            font-size: 12px;
+        }
+
+        .product-name {
+            color: #3b2418;
+            font-weight: bold;
+        }
+
+        .product-price {
+            color: #62361f;
+            font-weight: bold;
+        }
+
+        .total-row td {
+            border-bottom: none;
+            padding-top: 22px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #3b2418;
+        }
+
+        .total-value {
+            color: #62361f;
+            font-size: 18px;
+        }
+
+        .shipping-address {
+            padding: 18px;
+            background: #f8f4ef;
+            border-radius: 10px;
+            color: #6f6259;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 12px 22px;
+            border-radius: 9px;
+            background: #62361f;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .back-button:hover {
+            background: #4e2918;
+        }
+
+        .empty-items {
+            text-align: center;
+            padding: 30px;
+            color: #8a817a;
+        }
+
+        @media (max-width: 600px) {
+
+            .order-page {
+                padding: 35px 0;
+            }
+
+            .order-card {
+                padding: 20px;
+            }
+
+            .order-header h1 {
+                font-size: 30px;
+            }
+
+            .order-info {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- TOP BAR -->
+
+<div class="top-bar">
+
+    <div class="container top-bar-content">
+
+        <span>
+            Homemade goodness, delivered to your doorstep
+        </span>
+
+        <span>
+            🇮🇳 Proudly made in India
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="container header-content">
+
+        <a href="/" class="brand">
+
+            <div class="brand-icon">
+                🌶️
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    Tasteof Home
+                </div>
+
+                <div class="brand-tagline">
+                    Homemade. Spicy. Delicious.
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <div class="header-actions">
+
+            <a href="/" class="header-action">
+
+                <span>🏠</span>
+
+                <small>
+                    Home
+                </small>
+
+            </a>
+
+
+            <a href="/account" class="header-action">
+
+                <span>👤</span>
+
+                <small>
+                    {{ customer.username }}
+                </small>
+
+            </a>
+
+
+            <a href="/cart" class="cart-button">
+
+                <span>
+                    🛒
+                </span>
+
+                <span>
+                    Cart
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ORDER DETAILS -->
+
+<main class="order-page">
+
+    <div class="order-container">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="order-header">
+
+            <h1>
+                Order #{{ order.id }}
+            </h1>
+
+            <p>
+                Complete details of your order.
+            </p>
+
+        </div>
+
+
+        <!-- ORDER INFORMATION -->
+
+        <div class="order-card">
+
+            <h2 class="card-title">
+                Order Information
+            </h2>
+
+
+            <div class="order-info">
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+                        Order ID
+                    </span>
+
+                    <span class="info-value">
+                        #{{ order.id }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+                        Order Date
+                    </span>
+
+                    <span class="info-value">
+
+                        {% if order.created_at %}
+
+                            {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+                        Order Status
+                    </span>
+
+                    <span class="status">
+                        {{ order.status }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+                        Payment
+                    </span>
+
+                    <span class="payment">
+
+                        {% if order.payment_method == "online" %}
+
+                            UPI
+
+                        {% else %}
+
+                            COD
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+                        Payment Status
+                    </span>
+
+                    <span class="info-value">
+                        {{ order.payment_status }}
+                    </span>
+
+                </div>
+
+
+                {% if order.utr_number %}
+
+                <div class="info-box">
+
+                    <span class="info-label">
+                        UTR Number
+                    </span>
+
+                    <span class="info-value">
+                        {{ order.utr_number }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+
+        <div class="order-card">
+
+            <h2 class="card-title">
+                Ordered Items
+            </h2>
+
+
+            {% if order.items %}
+
+            <div class="order-table-wrapper">
+
+                <table class="order-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                PRODUCT
+                            </th>
+
+                            <th>
+                                PRICE
+                            </th>
+
+                            <th>
+                                QUANTITY
+                            </th>
+
+                            <th>
+                                TOTAL
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for item in order.items %}
+
+                        <tr>
+
+                            <td>
+
+                                <span class="product-name">
+
+                                    {% if item.product %}
+
+                                        {{ item.product.name }}
+
+                                    {% else %}
+
+                                        Product unavailable
+
+                                    {% endif %}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="product-price">
+
+                                    ₹{{ "%.2f"|format(item.price or 0) }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ item.quantity }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="product-price">
+
+                                    ₹{{ "%.2f"|format((item.price or 0) * (item.quantity or 0)) }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                        <tr class="total-row">
+
+                            <td colspan="3">
+                                Order Total
+                            </td>
+
+                            <td>
+
+                                <span class="total-value">
+
+                                    ₹{{ "%.2f"|format(order.total_amount or 0) }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-items">
+
+                No items were found for this order.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- SHIPPING ADDRESS -->
+
+        <div class="order-card">
+
+            <h2 class="card-title">
+                Delivery Address
+            </h2>
+
+
+            <div class="shipping-address">
+
+                {% if order.shipping_address %}
+
+                    {{ order.shipping_address }}
+
+                {% else %}
+
+                    Delivery address not available.
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- BACK BUTTON -->
+
+        <a
+            href="/my-orders"
+            class="back-button"
+        >
+            ← Back to My Orders
+        </a>
+
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <div class="footer-bottom">
+
+        <div class="container">
+
+            © 2026 Tasteof Home. All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

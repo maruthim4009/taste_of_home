@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>UPI Payment | Taste of Home</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="upi-page">
+
+    <div class="upi-container">
+
+        <!-- HEADER -->
+
+        <div class="upi-header">
+
+            <span class="upi-label">
+                PAYMENT
+            </span>
+
+            <h1>
+                Complete your UPI payment
+            </h1>
+
+            <p>
+                Pay using the QR code or UPI ID below.
+            </p>
+
+        </div>
+
+
+        <!-- PAYMENT CARD -->
+
+        <div class="upi-card">
+
+            <div class="upi-payment-title">
+
+                <span>
+                    UPI PAYMENT
+                </span>
+
+                <h2>
+                    Pay ₹{{ cart_total }}
+                </h2>
+
+            </div>
+
+
+            <!-- QR CODE -->
+
+            <div class="qr-section">
+
+                <div class="qr-box">
+
+                    <img
+                        src="{{ url_for('static', path='images/yogesh.jpeg') }}"
+                        alt="UPI QR Code"
+                        class="upi-qr"
+                    >
+
+                </div>
+
+                <p class="scan-text">
+                    Scan this QR code using any UPI app
+                </p>
+
+            </div>
+
+
+            <!-- UPI ID -->
+
+            <div class="upi-id-section">
+
+                <span class="upi-id-label">
+                    UPI ID
+                </span>
+
+                <div class="upi-id-box">
+
+                    <strong id="upiId">
+                        {{ upi_id }}
+                    </strong>
+
+                    <button
+                        type="button"
+                        onclick="copyUpiId()"
+                        class="copy-button"
+                    >
+                        Copy
+                    </button>
+
+                </div>
+
+                <small id="copyStatus">
+                    Use this UPI ID if you don't want to scan the QR code.
+                </small>
+
+            </div>
+
+
+            <!-- PAYMENT INSTRUCTIONS -->
+
+            <div class="payment-instructions">
+
+                <div class="instruction">
+
+                    <span class="instruction-number">
+                        1
+                    </span>
+
+                    <p>
+                        Open your UPI app and scan the QR code.
+                    </p>
+
+                </div>
+
+
+                <div class="instruction">
+
+                    <span class="instruction-number">
+                        2
+                    </span>
+
+                    <p>
+                        Pay exactly ₹{{ cart_total }}
+                        to
+                        <strong>{{ upi_id }}</strong>.
+                    </p>
+
+                </div>
+
+
+                <div class="instruction">
+
+                    <span class="instruction-number">
+                        3
+                    </span>
+
+                    <p>
+                        Complete the payment in your UPI app.
+                    </p>
+
+                </div>
+
+
+                <div class="instruction">
+
+                    <span class="instruction-number">
+                        4
+                    </span>
+
+                    <p>
+                        After completing the payment,
+                        click
+                        <strong>I Have Paid</strong>.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- WARNING -->
+
+            <div class="payment-warning">
+
+                <span>
+                    ⚠️
+                </span>
+
+                <p>
+                    Please make the payment before clicking
+                    <strong>I Have Paid</strong>.
+                    Your payment will be verified before the
+                    order is treated as paid.
+                </p>
+
+            </div>
+
+
+            <!-- CONFIRM PAYMENT -->
+
+            <form
+                action="/confirm-upi-payment"
+                method="post"
+                id="upiPaymentForm"
+            >
+
+                <!-- UTR / TRANSACTION ID -->
+
+                <div class="utr-section">
+
+                    <label for="utrNumber">
+                        UTR / TRANSACTION ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="utrNumber"
+                        name="utr_number"
+                        placeholder="Enter your UTR / Transaction ID"
+                        maxlength="100"
+                        required
+                    >
+
+                    <small>
+                        Enter the transaction number shown in your UPI app after payment.
+                    </small>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="paid-button"
+                    id="paidButton"
+                >
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <span id="paidButtonText">
+                        I Have Paid
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- BACK -->
+
+            <a
+                href="/checkout"
+                class="cancel-payment"
+            >
+                ← Back to Checkout
+            </a>
+
+
+            <p class="verification-note">
+                UPI payments are subject to payment verification.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* =========================================================
+   UPI PAYMENT PAGE
+   ========================================================= */
+
+.upi-page {
+
+    min-height: 100vh;
+
+    padding: 55px 20px 80px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f6ed,
+            #fbf8ee
+        );
+
+    box-sizing: border-box;
+}
+
+
+.upi-container {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.upi-header {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+
+.upi-label {
+
+    color: #65805f;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.upi-header h1 {
+
+    margin: 7px 0 0;
+
+    color: #28372d;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 32px;
+
+    line-height: 1.2;
+}
+
+
+.upi-header p {
+
+    margin-top: 9px;
+
+    color: #7d847b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.upi-card {
+
+    padding: 30px;
+
+    background: #fffdf7;
+
+    border: 1px solid #e3e5d9;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(55, 70, 52, .08);
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.upi-payment-title span {
+
+    color: #71846b;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.upi-payment-title h2 {
+
+    margin: 6px 0 22px;
+
+    color: #52774d;
+
+    font-size: 28px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   QR
+   ========================================================= */
+
+.qr-section {
+
+    margin-bottom: 24px;
+}
+
+
+.qr-box {
+
+    width: 230px;
+
+    height: 230px;
+
+    margin: 0 auto;
+
+    padding: 10px;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    place-items: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe4d8;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 25px rgba(55, 70, 52, .08);
+}
+
+
+.upi-qr {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+.scan-text {
+
+    margin-top: 11px;
+
+    color: #7d8579;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   UPI ID
+   ========================================================= */
+
+.upi-id-section {
+
+    margin-top: 20px;
+
+    text-align: left;
+}
+
+
+.upi-id-label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #6c8268;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+}
+
+
+.upi-id-box {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 11px 12px;
+
+    background: #f3f6ed;
+
+    border: 1px solid #dbe3d4;
+
+    border-radius: 8px;
+}
+
+
+.upi-id-box strong {
+
+    color: #3f5140;
+
+    font-size: 12px;
+
+    word-break: break-all;
+}
+
+
+.copy-button {
+
+    flex-shrink: 0;
+
+    padding: 6px 10px;
+
+    border: 1px solid #b8c9af;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #55734f;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.copy-button:hover {
+
+    background: #edf3e8;
+}
+
+
+.upi-id-section small {
+
+    display: block;
+
+    margin-top: 7px;
+
+    color: #969d94;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   INSTRUCTIONS
+   ========================================================= */
+
+.payment-instructions {
+
+    margin-top: 24px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e5e8df;
+
+    text-align: left;
+}
+
+
+.instruction {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 13px;
+}
+
+
+.instruction:last-child {
+
+    margin-bottom: 0;
+}
+
+
+.instruction-number {
+
+    width: 21px;
+
+    height: 21px;
+
+    flex-shrink: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #e7efdf;
+
+    color: #5f7d58;
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+
+.instruction p {
+
+    margin: 2px 0 0;
+
+    color: #6f786d;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+.instruction strong {
+
+    color: #526550;
+}
+
+
+/* =========================================================
+   WARNING
+   ========================================================= */
+
+.payment-warning {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    margin-top: 22px;
+
+    padding: 12px;
+
+    border: 1px solid #e7dfc9;
+
+    border-radius: 9px;
+
+    background: #faf7ec;
+
+    text-align: left;
+}
+
+
+.payment-warning span {
+
+    font-size: 14px;
+}
+
+
+.payment-warning p {
+
+    margin: 0;
+
+    color: #77745f;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+.payment-warning strong {
+
+    color: #665f43;
+}
+
+
+/* =========================================================
+   PAID BUTTON
+   ========================================================= */
+
+.paid-button {
+
+    width: 100%;
+
+    min-height: 50px;
+
+    margin-top: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #668960,
+            #4f714a
+        );
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 20px rgba(79, 113, 74, .16);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
+}
+
+
+.paid-button:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 11px 24px rgba(79, 113, 74, .22);
+}
+
+
+.paid-button:disabled {
+
+    opacity: .7;
+
+    cursor: wait;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.cancel-payment {
+
+    display: inline-block;
+
+    margin-top: 16px;
+
+    color: #667b61;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+.cancel-payment:hover {
+
+    text-decoration: underline;
+}
+
+
+.verification-note {
+
+    margin: 13px 0 0;
+
+    color: #a0a49d;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .upi-page {
+
+        padding: 35px 15px 55px;
+    }
+
+
+    .upi-header h1 {
+
+        font-size: 28px;
+    }
+
+
+    .upi-card {
+
+        padding: 22px 18px;
+    }
+
+
+    .qr-box {
+
+        width: 210px;
+
+        height: 210px;
+    }
+
+}
+
+
+/* =========================================================
+   UTR / TRANSACTION ID
+   ========================================================= */
+
+.utr-section {
+
+    margin-top: 22px;
+
+    text-align: left;
+}
+
+
+.utr-section label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #6c8268;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+}
+
+
+.utr-section input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #dbe3d4;
+
+    border-radius: 8px;
+
+    background: #f3f6ed;
+
+    color: #3f5140;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    outline: none;
+}
+
+
+.utr-section input:focus {
+
+    border-color: #8da583;
+
+    background: #ffffff;
+}
+
+
+.utr-section input::placeholder {
+
+    color: #a0a69d;
+}
+
+
+.utr-section small {
+
+    display: block;
+
+    margin-top: 7px;
+
+    color: #969d94;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+</style>
+
+
+<script>
+
+/* =========================================================
+   COPY UPI ID
+   ========================================================= */
+
+function copyUpiId() {
+
+    const upiId =
+        document.getElementById("upiId");
+
+    const status =
+        document.getElementById("copyStatus");
+
+    if (!upiId) {
+
+        return;
+    }
+
+    navigator.clipboard.writeText(
+        upiId.textContent.trim()
+    )
+    .then(function () {
+
+        if (status) {
+
+            status.textContent =
+                "UPI ID copied successfully.";
+
+            status.style.color =
+                "#5f7d58";
+        }
+
+    })
+    .catch(function () {
+
+        if (status) {
+
+            status.textContent =
+                "Please copy the UPI ID manually.";
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   PAYMENT CONFIRMATION BUTTON
+   ========================================================= */
+
+document
+    .getElementById("upiPaymentForm")
+    .addEventListener(
+        "submit",
+        function () {
+
+            const button =
+                document.getElementById("paidButton");
+
+            const text =
+                document.getElementById("paidButtonText");
+
+            if (!button) {
+
+                return;
+            }
+
+            button.disabled = true;
+
+            if (text) {
+
+                text.textContent =
+                    "Submitting payment confirmation...";
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Order Details | Taste of Home</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f2;
+            color: #28372d;
+        }
+
+        .page {
+            min-height: 100vh;
+            padding: 35px 20px 60px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .top {
+            margin-bottom: 25px;
+        }
+
+        .back {
+            color: #62755e;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .eyebrow {
+            margin-top: 22px;
+            color: #71846b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            margin: 7px 0 5px;
+            color: #24382a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 34px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: #858c83;
+            font-size: 12px;
+        }
+
+        .card {
+            margin-bottom: 18px;
+            padding: 25px;
+            background: #ffffff;
+            border: 1px solid #e1e5dc;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(45, 60, 48, .06);
+        }
+
+        .card-title {
+            margin-bottom: 20px;
+            color: #344439;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px 30px;
+        }
+
+        .detail-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #929991;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            color: #3e4d41;
+            font-size: 12px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .amount {
+            color: #52774d;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .utr {
+            font-family: monospace;
+            letter-spacing: .5px;
+        }
+
+        .address {
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .paid {
+            background: #e8f4e8;
+            color: #397044;
+        }
+
+        .pending {
+            background: #fff5d9;
+            color: #98731d;
+        }
+
+        .rejected {
+            background: #f9e8e6;
+            color: #a34e46;
+        }
+
+        .neutral {
+            background: #edf0f4;
+            color: #596574;
+        }
+
+        /* -------------------------------------------------
+           PAYMENT ACTIONS
+        -------------------------------------------------- */
+
+        .payment-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .verify-button {
+            height: 42px;
+            padding: 0 20px;
+            border: 0;
+            border-radius: 8px;
+            background: #397044;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .verify-button:hover {
+            background: #2f6039;
+        }
+
+        .reject-button {
+            height: 42px;
+            padding: 0 20px;
+            border: 0;
+            border-radius: 8px;
+            background: #a34e46;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .reject-button:hover {
+            background: #8e4039;
+        }
+
+        .payment-message {
+            color: #858c83;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* -------------------------------------------------
+           STATUS CONTROLS
+        -------------------------------------------------- */
+
+        .status-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .status-select {
+            height: 42px;
+            min-width: 220px;
+            padding: 0 12px;
+            border: 1px solid #dce2d8;
+            border-radius: 8px;
+            background: #fafbf8;
+            color: #3e4d41;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            outline: none;
+        }
+
+        .status-select:focus {
+            border-color: #78906f;
+        }
+
+        .update-button {
+            height: 42px;
+            padding: 0 18px;
+            border: 0;
+            border-radius: 8px;
+            background: #304936;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .update-button:hover {
+            background: #24382a;
+        }
+
+        @media (max-width: 650px) {
+
+            .page {
+                padding: 25px 15px 45px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .status-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .status-select {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .update-button {
+                width: 100%;
+            }
+
+            .payment-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .verify-button,
+            .reject-button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="container">
+
+        <div class="top">
+
+            <a
+                href="/admin/orders"
+                class="back"
+            >
+                ← Back to All Orders
+            </a>
+
+            <div class="eyebrow">
+                ORDER DETAILS
+            </div>
+
+            <h1>
+                Order #{{ order.id }}
+            </h1>
+
+            <p class="subtitle">
+                Complete information for this customer order.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             UPDATE ORDER STATUS
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="card-title">
+                UPDATE ORDER STATUS
+            </div>
+
+            <form
+                action="/admin/orders/{{ order.id }}/status"
+                method="post"
+            >
+
+                <div class="status-controls">
+
+                    <select
+                        name="status"
+                        class="status-select"
+                        required
+                    >
+
+                        <option
+                            value="Pending"
+                            {% if order.status == "Pending" %}selected{% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="Confirmed"
+                            {% if order.status == "Confirmed" %}selected{% endif %}
+                        >
+                            Confirmed
+                        </option>
+
+                        <option
+                            value="Preparing"
+                            {% if order.status == "Preparing" %}selected{% endif %}
+                        >
+                            Preparing
+                        </option>
+
+                        <option
+                            value="Out for Delivery"
+                            {% if order.status == "Out for Delivery" %}selected{% endif %}
+                        >
+                            Out for Delivery
+                        </option>
+
+                        <option
+                            value="Delivered"
+                            {% if order.status == "Delivered" %}selected{% endif %}
+                        >
+                            Delivered
+                        </option>
+
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="update-button"
+                    >
+                        Update Status
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- =================================================
+             PAYMENT VERIFICATION
+        ================================================== -->
+
+        {% if order.payment_method == "online" %}
+
+        <div class="card">
+
+            <div class="card-title">
+                PAYMENT VERIFICATION
+            </div>
+
+            {% if order.payment_status == "Pending Verification" %}
+
+            <div class="payment-actions">
+
+                <form
+                    action="/admin/verify-upi/{{ order.id }}"
+                    method="post"
+                >
+
+                    <button
+                        type="submit"
+                        class="verify-button"
+                    >
+                        ✓ Verify Payment
+                    </button>
+
+                </form>
+
+
+                <form
+                    action="/admin/reject-upi/{{ order.id }}"
+                    method="post"
+                >
+
+                    <button
+                        type="submit"
+                        class="reject-button"
+                    >
+                        ✕ Reject Payment
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% elif order.payment_status == "Paid" %}
+
+                <span class="badge paid">
+                    ✓ Payment Verified
+                </span>
+
+            {% elif order.payment_status == "Rejected" %}
+
+                <span class="badge rejected">
+                    ✕ Payment Rejected
+                </span>
+
+            {% else %}
+
+                <span class="badge neutral">
+                    {{ order.payment_status or "Pending" }}
+                </span>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             ORDER INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="card-title">
+                ORDER INFORMATION
+            </div>
+
+            <div class="details-grid">
+
+                <div>
+
+                    <span class="detail-label">
+                        ORDER NUMBER
+                    </span>
+
+                    <div class="detail-value">
+                        #{{ order.id }}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        ORDER DATE
+                    </span>
+
+                    <div class="detail-value">
+                        {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        ORDER STATUS
+                    </span>
+
+                    <div class="detail-value">
+
+                        {% if order.status == "Paid" %}
+
+                            <span class="badge paid">
+                                Paid
+                            </span>
+
+                        {% elif order.status == "Payment Rejected" %}
+
+                            <span class="badge rejected">
+                                Payment Rejected
+                            </span>
+
+                        {% elif order.status == "Pending" %}
+
+                            <span class="badge pending">
+                                Pending
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge neutral">
+                                {{ order.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        TOTAL AMOUNT
+                    </span>
+
+                    <div class="amount">
+                        ₹{{ "%.2f"|format(order.total_amount or 0) }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CUSTOMER INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="card-title">
+                CUSTOMER INFORMATION
+            </div>
+
+            <div class="details-grid">
+
+                <div>
+
+                    <span class="detail-label">
+                        CUSTOMER
+                    </span>
+
+                    <div class="detail-value">
+
+                        {% if order.customer %}
+
+                            {{ order.customer.username }}
+
+                        {% else %}
+
+                            Unknown
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        SHIPPING ADDRESS
+                    </span>
+
+                    <div class="detail-value address">
+
+                        {{ order.shipping_address or "Not provided" }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PAYMENT INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="card-title">
+                PAYMENT INFORMATION
+            </div>
+
+            <div class="details-grid">
+
+                <div>
+
+                    <span class="detail-label">
+                        PAYMENT METHOD
+                    </span>
+
+                    <div class="detail-value">
+
+                        {% if order.payment_method == "online" %}
+
+                            <span class="badge paid">
+                                UPI
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge neutral">
+                                COD
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        PAYMENT STATUS
+                    </span>
+
+                    <div class="detail-value">
+
+                        {% if order.payment_status == "Paid" %}
+
+                            <span class="badge paid">
+                                ✓ Paid
+                            </span>
+
+                        {% elif order.payment_status == "Pending Verification" %}
+
+                            <span class="badge pending">
+                                Pending Verification
+                            </span>
+
+                        {% elif order.payment_status == "Rejected" %}
+
+                            <span class="badge rejected">
+                                ✕ Rejected
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge neutral">
+                                {{ order.payment_status or "Pending" }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="detail-label">
+                        UTR / TRANSACTION ID
+                    </span>
+
+                    <div class="detail-value utr">
+
+                        {{ order.utr_number or "—" }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

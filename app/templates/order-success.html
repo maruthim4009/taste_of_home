@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Order Status - Taste of Home</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f6f5ef;
+        color: #28372d;
+    }
+
+    .success-container {
+        width: 92%;
+        max-width: 650px;
+        margin: 70px auto;
+        background: #ffffff;
+        padding: 42px;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 12px 35px rgba(36, 56, 42, 0.09);
+        border: 1px solid #e5e5dc;
+    }
+
+    .success-icon {
+        font-size: 58px;
+        margin-bottom: 12px;
+    }
+
+    h1 {
+        margin: 0 0 10px;
+        color: #24382a;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 30px;
+    }
+
+    .intro {
+        color: #7d857d;
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+
+    .order-number {
+        display: inline-block;
+        padding: 9px 16px;
+        background: #f4f6f1;
+        border-radius: 8px;
+        color: #405343;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .order-details {
+        background: #fafbf8;
+        padding: 23px;
+        border-radius: 12px;
+        text-align: left;
+        margin-top: 25px;
+        border: 1px solid #e4e8df;
+    }
+
+    .order-details p {
+        margin: 13px 0;
+        color: #59645a;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .order-details strong {
+        color: #344337;
+    }
+
+    /* -------------------------------------------------
+       PAYMENT STATUS
+    ------------------------------------------------- */
+
+    .status {
+        display: inline-block;
+        margin-left: 5px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .status-pending {
+        background: #fff5d9;
+        color: #9a751d;
+    }
+
+    .status-paid {
+        background: #e8f4e8;
+        color: #397044;
+    }
+
+    .status-rejected {
+        background: #f9e8e6;
+        color: #a34e46;
+    }
+
+    /* -------------------------------------------------
+       VERIFICATION MESSAGE
+    ------------------------------------------------- */
+
+    .verification-message {
+        margin-top: 18px !important;
+        padding: 14px 15px;
+        border-radius: 9px;
+        font-size: 11px !important;
+        line-height: 1.6 !important;
+    }
+
+    .pending-message {
+        background: #faf7ec;
+        border: 1px solid #e7dfc9;
+        color: #77745f;
+    }
+
+    .paid-message {
+        background: #f0f8f0;
+        border: 1px solid #d6e8d6;
+        color: #4d7453;
+    }
+
+    .rejected-message {
+        background: #fbf1f0;
+        border: 1px solid #ead5d2;
+        color: #9a5750;
+    }
+
+    .utr-box {
+        font-family: monospace;
+        color: #465448 !important;
+        font-size: 13px !important;
+    }
+
+    /* -------------------------------------------------
+       BUTTON
+    ------------------------------------------------- */
+
+    .btn {
+        display: inline-block;
+        margin-top: 28px;
+        padding: 12px 25px;
+        background: linear-gradient(
+            135deg,
+            #304936,
+            #24382a
+        );
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        box-shadow: 0 7px 18px rgba(36, 56, 42, 0.15);
+        transition: 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 23px rgba(36, 56, 42, 0.20);
+    }
+
+    @media (max-width: 600px) {
+
+        .success-container {
+            margin: 30px auto;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="success-container">
+
+<!-- =================================================
+     ICON
+================================================== -->
+
+{% if order.payment_method == "online" and order.payment_status == "Pending Verification" %}
+
+    <div class="success-icon">
+        🕐
+    </div>
+
+{% elif order.payment_method == "online" and order.payment_status == "Rejected" %}
+
+    <div class="success-icon">
+        ❌
+    </div>
+
+{% else %}
+
+    <div class="success-icon">
+        ✅
+    </div>
+
+{% endif %}
+
+
+<!-- =================================================
+     TITLE
+================================================== -->
+
+<h1>
+
+    {% if order.payment_method == "online" and order.payment_status == "Pending Verification" %}
+
+        Payment Under Verification
+
+    {% elif order.payment_method == "online" and order.payment_status == "Rejected" %}
+
+        Payment Rejected
+
+    {% else %}
+
+        Order Placed Successfully!
+
+    {% endif %}
+
+</h1>
+
+
+<p class="intro">
+    Thank you for shopping with Taste of Home.
+</p>
+
+
+<!-- =================================================
+     ORDER NUMBER
+================================================== -->
+
+<div class="order-number">
+
+    Order #{{ order.id }}
+
+</div>
+
+
+<!-- =================================================
+     ORDER DETAILS
+================================================== -->
+
+<div class="order-details">
+
+    <p>
+
+        <strong>Total Amount:</strong>
+
+        ₹{{ "%.2f"|format(order.total_amount) }}
+
+    </p>
+
+
+    <!-- PAYMENT STATUS -->
+
+    <p>
+
+        <strong>Payment Status:</strong>
+
+        {% if order.payment_status == "Paid" %}
+
+            <span class="status status-paid">
+                ✓ Verified
+            </span>
+
+        {% elif order.payment_status == "Rejected" %}
+
+            <span class="status status-rejected">
+                ✕ Rejected
+            </span>
+
+        {% else %}
+
+            <span class="status status-pending">
+                Pending Verification
+            </span>
+
+        {% endif %}
+
+    </p>
+
+
+    <!-- UTR -->
+
+    {% if order.payment_method == "online" %}
+
+        <p class="utr-box">
+
+            <strong>UTR / Transaction ID:</strong>
+
+            {{ order.utr_number or "Not available" }}
+
+        </p>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         PENDING
+    ================================================== -->
+
+    {% if order.payment_method == "online"
+          and order.payment_status == "Pending Verification" %}
+
+        <p class="verification-message pending-message">
+
+            🕐 Your UPI payment has been submitted successfully
+            and is currently awaiting manual verification.
+
+            <br><br>
+
+            Our team will verify your transaction and update
+            your payment status shortly.
+
+        </p>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         VERIFIED
+    ================================================== -->
+
+    {% if order.payment_method == "online"
+          and order.payment_status == "Paid" %}
+
+        <p class="verification-message paid-message">
+
+            ✓ Your UPI payment has been verified successfully.
+
+            <br><br>
+
+            Your order has been confirmed and will be processed
+            for delivery.
+
+        </p>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         REJECTED
+    ================================================== -->
+
+    {% if order.payment_method == "online"
+          and order.payment_status == "Rejected" %}
+
+        <p class="verification-message rejected-message">
+
+            ✕ Your UPI payment could not be verified.
+
+            <br><br>
+
+            Please contact Taste of Home support if you believe
+            this was rejected by mistake.
+
+        </p>
+
+    {% endif %}
+
+
+    <!-- ORDER STATUS -->
+
+    <p>
+
+        <strong>Order Status:</strong>
+
+        {{ order.status }}
+
+    </p>
+
+
+    <!-- SHIPPING ADDRESS -->
+
+    <p>
+
+        <strong>Shipping Address:</strong>
+
+        <br>
+
+        {{ order.shipping_address }}
+
+    </p>
+
+
+    <!-- ORDER DATE -->
+
+    <p>
+
+        <strong>Order Date:</strong>
+
+        {{ order.created_at.strftime('%Y-%m-%d %H:%M:%S') }}
+
+    </p>
+
+</div>
+
+
+<!-- =================================================
+     CONTINUE SHOPPING
+================================================== -->
+
+<a
+    href="/shop"
+    class="btn"
+>
+    Continue Shopping
+</a>
+
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Account | Tasteof Home</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+    <style>
+
+        .account-page {
+            min-height: 70vh;
+            padding: 60px 0;
+            background: #f8f4ef;
+        }
+
+        .account-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .account-header {
+            margin-bottom: 30px;
+        }
+
+        .account-header h1 {
+            margin: 0;
+            color: #3b2418;
+            font-size: 38px;
+        }
+
+        .account-header p {
+            color: #8a817a;
+            margin-top: 8px;
+        }
+
+        .account-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .account-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee3d9;
+        }
+
+        .profile-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #62361f;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .profile-info h2 {
+            margin: 0;
+            color: #3b2418;
+        }
+
+        .profile-info p {
+            margin: 6px 0 0;
+            color: #8a817a;
+        }
+
+        .account-details {
+            margin-top: 25px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid #eee3d9;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #3b2418;
+        }
+
+        .detail-value {
+            color: #6f6259;
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .account-button {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-button {
+            background: #62361f;
+            color: white;
+        }
+
+        .logout-button {
+            background: #fdecec;
+            color: #b42318;
+        }
+
+        .home-button:hover {
+            background: #4e2918;
+        }
+
+        .logout-button:hover {
+            background: #f9dada;
+        }
+
+        @media (max-width: 600px) {
+
+            .account-page {
+                padding: 35px 0;
+            }
+
+            .account-card {
+                padding: 25px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .account-actions {
+                flex-direction: column;
+            }
+
+            .account-button {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- TOP BAR -->
+
+<div class="top-bar">
+
+    <div class="container top-bar-content">
+
+        <span>
+            Homemade goodness, delivered to your doorstep
+        </span>
+
+        <span>
+            🇮🇳 Proudly made in India
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="container header-content">
+
+        <a href="/" class="brand">
+
+            <div class="brand-icon">
+                🌶️
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    Tasteof Home
+                </div>
+
+                <div class="brand-tagline">
+                    Homemade. Spicy. Delicious.
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <div class="header-actions">
+
+            <a href="/" class="header-action">
+
+                <span>🏠</span>
+
+                <small>
+                    Home
+                </small>
+
+            </a>
+
+           {% if customer %}
+
+<a href="/account" class="header-action">
+
+    <span>👤</span>
+
+    <small>
+        {{ customer.username }}
+    </small>
+
+</a>
+
+{% else %}
+
+<a href="/login" class="header-action">
+
+    <span>👤</span>
+
+    <small>
+        Login
+    </small>
+
+</a>
+
+{% endif %}
+
+            <a href="/cart" class="cart-button">
+
+                <span>
+                    🛒
+                </span>
+
+                <span>
+                    Cart
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ACCOUNT -->
+
+<main class="account-page">
+
+    <div class="account-container">
+
+
+        <div class="account-header">
+
+            <h1>
+                My Account
+            </h1>
+
+            <p>
+                Manage your Tasteof Home account.
+            </p>
+
+        </div>
+
+
+        <div class="account-card">
+
+
+            <!-- PROFILE -->
+
+            <div class="account-profile">
+
+                <div class="profile-icon">
+                    👤
+                </div>
+
+                <div class="profile-info">
+
+                    <h2>
+                        {{ customer.username }}
+                    </h2>
+
+                    <p>
+                        Welcome back to Tasteof Home!
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="account-details">
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Account ID
+                    </span>
+
+                    <span class="detail-value">
+                        {{ customer.id }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Username
+                    </span>
+
+                    <span class="detail-value">
+                        {{ customer.username }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Email
+                    </span>
+
+                    <span class="detail-value">
+                        {{ customer.email }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Mobile Number
+                    </span>
+
+                    <span class="detail-value">
+                        {{ customer.mobile_number }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="account-actions">
+
+                <a
+                    href="/"
+                    class="account-button home-button"
+                >
+                    ← Back to Home
+                </a>
+                <a
+    href="/my-orders"
+    class="account-button home-button"
+>
+    📦 My Orders
+</a>
+
+
+                <a
+                    href="/logout"
+                    class="account-button logout-button"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <div class="footer-bottom">
+
+        <div class="container">
+
+            © 2026 Tasteof Home. All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cart | Tasteof Home</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/main.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="cart-page">
+
+
+    <div class="container">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="cart-header">
+
+            <div>
+
+                <span class="cart-label">
+                    SHOPPING CART
+                </span>
+
+                <h1>
+                    Your Cart
+                </h1>
+
+                <p>
+                    Review your selected homemade products before checkout.
+                </p>
+
+            </div>
+
+            <a href="/shop" class="continue-shopping">
+                ← Continue Shopping
+            </a>
+
+        </div>
+
+
+        {% if cart_items %}
+
+
+        <div class="cart-layout">
+
+
+            <!-- CART ITEMS -->
+
+            <div class="cart-products">
+
+
+                {% for item in cart_items %}
+
+
+                <div class="cart-item">
+
+
+                  <!-- PRODUCT VISUAL -->
+
+<div class="cart-product-image">
+
+    {% if item.product and item.product.image %}
+
+        {% if item.product.image.startswith('/static/') %}
+
+            <img
+                src="{{ item.product.image }}"
+                alt="{{ item.product.name }}"
+            >
+
+        {% else %}
+
+            <img
+                src="/static/images/{{ item.product.image }}"
+                alt="{{ item.product.name }}"
+            >
+
+        {% endif %}
+
+    {% else %}
+
+        <span>🌶️</span>
+
+    {% endif %}
+
+</div>
+
+                    <!-- PRODUCT DETAILS -->
+
+                    <div class="cart-product-details">
+
+
+                        <span class="cart-product-category">
+                            HOMEMADE SPECIAL
+                        </span>
+
+
+                        <h2>
+                            {{ item.product.name }}
+                        </h2>
+
+
+                        <p>
+                            {{ item.product.description }}
+                        </p>
+
+
+                        <div class="cart-price">
+
+                            ₹{{ item.product.price }}
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="cart-quantity">
+
+
+                        <span>
+                            Quantity
+                        </span>
+
+
+                        <div class="quantity-control">
+
+
+                            <form
+                                method="post"
+                                action="/cart/decrease"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="product_id"
+                                    value="{{ item.product.id }}"
+                                >
+
+                                <button type="submit">
+                                    −
+                                </button>
+
+                            </form>
+
+
+                            <strong>
+                                {{ item.quantity }}
+                            </strong>
+
+
+                            <form
+                                method="post"
+                                action="/cart/increase"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="product_id"
+                                    value="{{ item.product.id }}"
+                                >
+
+                                <button type="submit">
+                                    +
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- REMOVE -->
+
+                    <form
+                        method="post"
+                        action="/cart/remove"
+                        class="remove-form"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="product_id"
+                            value="{{ item.product.id }}"
+                        >
+
+                        <button type="submit">
+                            Remove
+                        </button>
+
+                    </form>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+
+            <!-- ORDER SUMMARY -->
+
+            <aside class="order-summary">
+
+
+                <span class="summary-label">
+                    ORDER SUMMARY
+                </span>
+
+
+                <h2>
+                    Your Order
+                </h2>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Items
+                    </span>
+
+                    <span>
+                        {{ cart_items|length }}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹{{ cart_total }}
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="/checkout"
+                    class="checkout-button"
+                >
+                    Proceed to Checkout
+                    <span>→</span>
+                </a>
+
+
+                <div class="secure-checkout">
+
+                    <span>
+                        🔒
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Secure Checkout
+                        </strong>
+
+                        <small>
+                            Your order details are protected.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </aside>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- EMPTY CART -->
+
+        <div class="empty-cart">
+
+            <div class="empty-cart-icon">
+                🛒
+            </div>
+
+            <h2>
+                Your cart is empty
+            </h2>
+
+            <p>
+                Looks like you haven't added anything yet.
+            </p>
+
+            <a
+                href="/shop"
+                class="checkout-button"
+            >
+                Start Shopping
+                <span>→</span>
+            </a>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
